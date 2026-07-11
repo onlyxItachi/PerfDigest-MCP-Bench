@@ -20,10 +20,12 @@ released behavior, not gating it.
 |---|---|---|---|
 | [`results/RESULTS.md`](results/RESULTS.md) | v1.0.0-era | RTX 4060 Laptop (sm_89) | Context-cost A/B: digest vs raw `ncu` payload, same diagnosis, ~14–130x fewer tokens per turn |
 | [`results/CROSS_BACKEND_2026-06-15.md`](results/CROSS_BACKEND_2026-06-15.md) | v1.0.0 + the `perf` `:u` scope-modifier fix | Same host (ASUS TUF A14, Ryzen AI 9 HX 370 + RTX 4060 Laptop) | Real captures across `nsight` (GPU) and `linux_perf` (CPU) digested through the same MCP call shape, with the `None` ≠ `0.0` honesty rule verified end to end |
+| [`results/TOKEN_AB_V1.1_2026-07-11.md`](results/TOKEN_AB_V1.1_2026-07-11.md) | **v1.1.0-rc** (main `dff3d19`) | Same host | Token A/B across FOUR backends (`ncu`, `torch-trace`, `perf`, `ptxas`) incl. the new `summarize_report`/`compare_metrics` flows: 16–103× on GPU/trace paths, 4× on perf, and the honest 0.8× ptxas floor case |
 
-Both runs predate `v1.1.0` (`compare_metrics`, `summarize_report`, the report
-cache, the `ptxas` backend) — they exercise the tier-1 digest tools
+The first two runs predate `v1.1.0` — they exercise the tier-1 digest tools
 (`list_kernels` / `get_metrics` / `expand`) that are unchanged since v1.0.0.
+The v1.1 run measures the agent-loop tools on a local main build (PyPI still
+served 1.0.0 at measurement time).
 
 ## Layout
 
