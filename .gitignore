@@ -1,0 +1,23 @@
+# This repo is FOR captured benchmark artifacts (.csv, .ncu-rep, etc.) —
+# do NOT add blanket ignores for report/data file extensions here.
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor junk
+.vscode/
+.idea/
+*.swp
+
+# Compiled benchmark binaries (regenerable from workloads/ sources)
+/workloads/gpu_bench
+/workloads/cpu_bench
+*.o
+*.exe
