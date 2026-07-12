@@ -1,0 +1,167 @@
+# CI capture matrix — enact "capture where you can, digest anywhere" on real hosts.
+#
+# What CI runners CAN do for this bench repo:
+#   * ptxas: full capture -> digest on a GPU-less VM (capture needs the CUDA
+#     toolkit, NOT a GPU — the designed-for case).
+#   * linux perf: runners have passwordless sudo (perf_event_paranoid is a
+#     non-issue), but Azure VMs may not expose the hardware PMU — which makes
+#     this a live honesty test: unsupported counters MUST digest as
+#     'not_available_in_this_export', never 0.0. The SIMD/AVX event probe is
+#     informational (expected to be thin or empty on a vPMU-less VM).
+#   * cross-OS digest: macOS/Windows digest the Linux-captured reports —
+#     the digest-anywhere tier proven on hosts that could never capture them.
+# What CI CANNOT do here: the GPU workloads (cuBLAS, torch.compile) — standard
+# hosted runners have no GPU; those captures stay on local hardware.
+#
+# Digests run against the RELEASED PyPI package (pinned), never repo code:
+# this repo evaluates released behavior.
+
+name: capture matrix
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "workloads/**"
+      - "ci/**"
+      - ".github/workflows/capture-matrix.yml"
+
+env:
+  PERFDIGEST_SPEC: perfdigest-mcp==1.1.1
+
+jobs:
+  capture-perf:
+    name: capture linux perf (degraded-PMU honesty test)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Probe host CPU + PMU exposure (informational)
+        run: |
+          grep -m1 "model name" /proc/cpuinfo || true
+          echo "SIMD flags:"
+          grep -m1 -o -E 'avx[0-9_a-z]*|sse4[._a-z0-9]*|fma' /proc/cpuinfo | sort -u | tr '\n' ' '; echo
+
+      - name: Install perf (wrapper falls back to the generic binary)
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q linux-tools-common "linux-tools-$(uname -r)" \
+            || sudo apt-get install -y -q linux-tools-generic
+          PERF=/usr/bin/perf
+          "$PERF" --version || PERF="$(ls -1 /usr/lib/linux-tools/*/perf | head -n1)"
+          "$PERF" --version
+          echo "PERF=$PERF" >> "$GITHUB_ENV"
+          sudo sysctl kernel.perf_event_paranoid=1
+
+      - name: Probe SIMD/FP perf events (informational, may be empty on a VM)
+        continue-on-error: true
+        run: |
+          "$PERF" list 2>/dev/null | grep -iE 'fp_arith|fp_ret|simd|vec' || echo "(no SIMD/FP hardware events exposed)"
+
+      - name: Compile + capture cpu_bench
+        run: |
+          cc -O2 -fno-inline -fno-omit-frame-pointer -o cpu_bench workloads/cpu_bench.c -lm
+          LC_ALL=C "$PERF" stat -j -o cpu_stat_ci.json \
+            -e task-clock,cycles,instructions,cache-references,cache-misses,branches,branch-misses,LLC-loads,LLC-load-misses \
+            -- ./cpu_bench
+          cat cpu_stat_ci.json
+          "$PERF" record -e cycles:u -g -o perf.data -- ./cpu_bench \
+            || "$PERF" record -e cpu-clock:u -g -o perf.data -- ./cpu_bench
+          LC_ALL=C "$PERF" report -i perf.data --stdio -n --no-children -g none --percent-limit 0.5 > cpu_report_ci.txt
+          head -40 cpu_report_ci.txt
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Digest on the capture host (released package, honesty asserts)
+        run: |
+          pip install -q "$PERFDIGEST_SPEC"
+          python ci/digest_check.py \
+            perf-stat-json:cpu_stat_ci.json \
+            perf-report:cpu_report_ci.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ci-captures-perf
+          path: |
+            cpu_stat_ci.json
+            cpu_report_ci.txt
+
+  capture-ptxas:
+    name: capture ptxas on a GPU-less VM (the designed-for case)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install CUDA toolkit (nvcc only — no GPU on this runner, none needed)
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q nvidia-cuda-toolkit
+          nvcc --version
+
+      - name: Compile with -Xptxas -v (the capture IS the compile)
+        run: |
+          nvcc -O3 -arch=sm_89 -Xptxas -v -c workloads/gpu_bench.cu -o gpu_bench.o \
+            2> gpu_codegen_ci.ptxas.txt
+          cat gpu_codegen_ci.ptxas.txt
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Digest on the capture host (released package, honesty asserts)
+        run: |
+          pip install -q "$PERFDIGEST_SPEC"
+          python ci/digest_check.py ptxas-verbose:gpu_codegen_ci.ptxas.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ci-captures-ptxas
+          path: gpu_codegen_ci.ptxas.txt
+
+  digest-cross-os:
+    name: digest on ${{ matrix.os }} (reports captured on Linux)
+    needs: [capture-perf, capture-ptxas]
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ci-captures-*
+          merge-multiple: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Digest all Linux-captured reports on this host
+        shell: bash
+        run: |
+          pip install -q "$PERFDIGEST_SPEC"
+          python ci/digest_check.py \
+            perf-stat-json:cpu_stat_ci.json \
+            perf-report:cpu_report_ci.txt \
+            ptxas-verbose:gpu_codegen_ci.ptxas.txt
+
+      - name: Show the digest/capture split on this host (informational)
+        shell: bash
+        run: |
+          python - <<'EOF'
+          import json
+          from perfdigest.platform.capabilities import capability_summary
+          from perfdigest.server.app import _register_backends
+          _register_backends()
+          s = capability_summary()
+          print(json.dumps({
+              "host_os": s["host"]["os"],
+              "can_digest": [d["backend"] for d in s["can_digest"]],
+              "can_capture_here": [c["backend"] for c in s["can_capture_here"] if c["capturable"]],
+          }, indent=1))
+          EOF
