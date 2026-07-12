@@ -47,6 +47,25 @@ and the `perf` scope-modifier normalization). Compile, capture, then digest
 **through the perfdigest MCP tools** — never read the raw report into the
 agent's context; that defeats the point of the tool this repo evaluates.
 
+## CI capture matrix
+
+[`capture-matrix.yml`](.github/workflows/capture-matrix.yml) enacts
+"capture where you can, digest anywhere" on real GitHub-hosted runners, against
+the **released PyPI package** (pinned — this repo evaluates released behavior):
+
+- **ptxas on a GPU-less VM** — the full capture→digest pipeline runs on a
+  runner with no GPU, because ptxas capture needs the toolkit, not the hardware
+  (verified: real register/spill numbers, genuine-0.0 semantics).
+- **linux perf as a degraded-PMU honesty test** — Azure VMs hide the hardware
+  PMU (measured: EPYC 9V74 runner, *every* hardware counter `<not supported>`,
+  even the AVX-512 CPU flags masked). The job asserts those digest as
+  `not_available_in_this_export`, never a fabricated 0.0.
+- **cross-OS digest** — macOS and Windows runners digest the Linux-captured
+  reports, proving the tier-1/tier-2 split on hosts that could never capture them.
+
+What CI *cannot* do here, measured not assumed: GPU captures (no GPU on free
+runners) and the SIMD counter study (no vPMU) — those run on local hardware.
+
 ## What lands here going forward
 
 This repo is the destination for anything the main repo should not carry:

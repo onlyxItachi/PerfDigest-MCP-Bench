@@ -9,6 +9,7 @@ Tiny, self-contained workloads used to produce the real reports digested in
 | `cpu_bench.c` | `linux_perf` (`perf`) | `mem_bound_chase`, `compute_bound_poly` | cache-bound vs in-register compute contrast |
 | `cublas_bench.py` | `nsight` | four cuBLAS GEMM kernel families (fp32 / TF32 / fp16 / bf16) | digest quality on **closed-source vendor kernels** — no source to read, counters only |
 | `torch_compile_bench.py` | `chrome_trace` + `nsight` | eager ATen kernels vs Inductor `triton_*_fused_*` | machine-generated kernel names, eager-vs-compiled `kernel_b` compare, Kineto bookkeeping/collision tags |
+| `simd_bench.c` | `linux_perf` | `scalar_fma_loop` (0 vector instrs), `vector_fma_loop` (autovectorized) | vendor SIMD event names outside the CPU vocabulary (AMD `fp_ret_sse_avx_ops.*` vs Intel `fp_arith_inst_retired.*`) — the `expand()` escape hatch + a v1.2 vocabulary case |
 
 The Python workloads need a CUDA-enabled torch (measured with 2.12.1+cu132,
 triton 3.7.1); capture commands are in each file's docstring.
