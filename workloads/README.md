@@ -1,13 +1,17 @@
 # workloads — cross-backend capture workloads
 
-Two tiny, self-contained workloads with deliberately **opposite roofline
-character**, used to produce the real reports digested in
-[`../results/CROSS_BACKEND_2026-06-15.md`](../results/CROSS_BACKEND_2026-06-15.md).
+Tiny, self-contained workloads used to produce the real reports digested in
+[`../results/`](../results/).
 
-| Source | Backend | Two units | Contrast |
+| Source | Backend(s) | Units | What it stresses |
 |---|---|---|---|
-| `gpu_bench.cu` | `nsight` (NVIDIA `ncu`) | `saxpy_mem_bound`, `fma_compute_bound` | DRAM-bound vs SM-compute-bound |
-| `cpu_bench.c` | `linux_perf` (`perf`) | `mem_bound_chase`, `compute_bound_poly` | cache-bound vs in-register compute |
+| `gpu_bench.cu` | `nsight` (NVIDIA `ncu`) | `saxpy_mem_bound`, `fma_compute_bound` | DRAM-bound vs SM-compute-bound roofline contrast |
+| `cpu_bench.c` | `linux_perf` (`perf`) | `mem_bound_chase`, `compute_bound_poly` | cache-bound vs in-register compute contrast |
+| `cublas_bench.py` | `nsight` | four cuBLAS GEMM kernel families (fp32 / TF32 / fp16 / bf16) | digest quality on **closed-source vendor kernels** — no source to read, counters only |
+| `torch_compile_bench.py` | `chrome_trace` + `nsight` | eager ATen kernels vs Inductor `triton_*_fused_*` | machine-generated kernel names, eager-vs-compiled `kernel_b` compare, Kineto bookkeeping/collision tags |
+
+The Python workloads need a CUDA-enabled torch (measured with 2.12.1+cu132,
+triton 3.7.1); capture commands are in each file's docstring.
 
 The compiled binaries and the `.ncu-rep` / `.csv` reports are **gitignored**
 (regenerable, large/binary). Only the sources live here.
