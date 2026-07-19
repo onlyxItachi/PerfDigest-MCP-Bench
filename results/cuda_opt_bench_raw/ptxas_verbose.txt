@@ -1,0 +1,36 @@
+ptxas info    : 0 bytes gmem
+ptxas info    : Compiling entry function '_Z15checksum_kernelPKflPd' for 'sm_89'
+ptxas info    : Function properties for _Z15checksum_kernelPKflPd
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 14 registers, used 0 barriers, 376 bytes cmem[0]
+ptxas info    : Compile time = 3.685 ms
+ptxas info    : Compiling entry function '_Z14compare_kernelPKfS0_lPi' for 'sm_89'
+ptxas info    : Function properties for _Z14compare_kernelPKfS0_lPi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 8 registers, used 0 barriers, 384 bytes cmem[0]
+ptxas info    : Compile time = 2.679 ms
+ptxas info    : Compiling entry function '_Z17spot_check_kernelPKfS0_ilPi' for 'sm_89'
+ptxas info    : Function properties for _Z17spot_check_kernelPKfS0_ilPi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 18 registers, used 0 barriers, 392 bytes cmem[0]
+ptxas info    : Compile time = 13.302 ms
+ptxas info    : Compiling entry function '_Z11init_kernelPfl' for 'sm_89'
+ptxas info    : Function properties for _Z11init_kernelPfl
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 12 registers, used 0 barriers, 368 bytes cmem[0]
+ptxas info    : Compile time = 2.806 ms
+ptxas info    : Compiling entry function '_Z20kernel_v2_vectorizedPfPKfi' for 'sm_89'
+ptxas info    : Function properties for _Z20kernel_v2_vectorizedPfPKfi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 19 registers, used 1 barriers, 4224 bytes smem, 372 bytes cmem[0]
+ptxas info    : Compile time = 2.597 ms
+ptxas info    : Compiling entry function '_Z19kernel_v1_coalescedPfPKfi' for 'sm_89'
+ptxas info    : Function properties for _Z19kernel_v1_coalescedPfPKfi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 26 registers, used 1 barriers, 4224 bytes smem, 372 bytes cmem[0]
+ptxas info    : Compile time = 2.509 ms
+ptxas info    : Compiling entry function '_Z15kernel_v0_naivePfPKfi' for 'sm_89'
+ptxas info    : Function properties for _Z15kernel_v0_naivePfPKfi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 14 registers, used 0 barriers, 372 bytes cmem[0]
+ptxas info    : Compile time = 1.695 ms

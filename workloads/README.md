@@ -12,11 +12,13 @@ Tiny, self-contained workloads used to produce the real reports digested in
 | `simd_bench.c` | `linux_perf` | `scalar_fma_loop` (0 vector instrs), `vector_fma_loop` (autovectorized) | vendor SIMD event names outside the CPU vocabulary (AMD `fp_ret_sse_avx_ops.*` vs Intel `fp_arith_inst_retired.*`) — the `expand()` escape hatch + a v1.2 vocabulary case |
 | `torch_train_bench.py` | `chrome_trace` + `nsight` | eager ATen forward/backward/AdamW kernels vs Inductor `triton_*_backward`-flavored fused kernels + eager `_foreach_*`/`multi_tensor_apply_kernel` optimizer kernels | a full training step (forward+backward+optimizer): Inductor-fused backward kernels, a `compare_metrics` `kernel_b` pairing that reports the wrong sign of a fusion win if read in isolation, `_foreach_*` op identity vs. generic optimizer GPU kernel names, untagged Dynamo/AOTDispatcher bookkeeping spans |
 | [`cpp_project/`](cpp_project/) | `cmake_profile` + `ninja_log` + `clang_time_trace` (+ `linux_perf`, conditionally) | cmake commands (`configure`/`project`/`try_compile`/...), ninja build edges (5 TUs + 2 links), clang compiler phases (`InstantiateClass`, `EvaluateAsInitializer`, ...) | one small real CMake/ninja/Clang C++ project run through **every** BuildDigest lens at once: cold-vs-warm configure (compiler detection vs your own `CMakeLists.txt`), cold-vs-incremental ninja build (supersede semantics, a `compare_metrics` non-rebuild proof), and a deliberately expensive TU (recursive constexpr + wide STL instantiation pressure) dissected by `clang_time_trace` into two independently-named cost sources — see [`../results/DEMANDING_WORKLOADS_3_CPP_BUILD_LOOP_2026-07-19.md`](../results/DEMANDING_WORKLOADS_3_CPP_BUILD_LOOP_2026-07-19.md) |
+| `cuda_opt_bench.cu` | `ptxas` + `nsight` | `kernel_v0_naive` (uncoalesced write), `kernel_v1_coalesced` (padded shared-mem tile), `kernel_v2_vectorized` (v1 + `float4` global loads/stores) | the CUDA optimization loop itself: one file, three real variants of a square-matrix transpose (`N=8192`, 8× the device's 32 MB L2), `compare_metrics` as the measure→edit→measure instrument between adjacent variants, `ptxas -v` codegen (registers/spills/smem) checked against the measured ranking, and an honest negative result (v1→v2's vectorization cut instructions 20.9% but bought zero wall-clock time once already DRAM-bound) — see [`../results/DEMANDING_WORKLOADS_4_CUDA_OPT_LOOP_2026-07-19.md`](../results/DEMANDING_WORKLOADS_4_CUDA_OPT_LOOP_2026-07-19.md) |
 
 The Python workloads need a CUDA-enabled torch (measured with 2.12.1+cu132,
 triton 3.7.1); capture commands are in each file's docstring. `cpp_project/`
 needs `clang++-22` (or any Clang new enough for `-ftime-trace`), `cmake`
->= 3.18, and `ninja`; its capture commands are below.
+>= 3.18, and `ninja`; its capture commands are below. `cuda_opt_bench.cu`
+needs only `nvcc` + `ncu` (no Python); its capture commands are below too.
 
 The compiled binaries and the `.ncu-rep` / `.csv` reports are **gitignored**
 (regenerable, large/binary). Only the sources live here. `cpp_project/`'s own
@@ -79,6 +81,27 @@ perf record -e cycles:u -g -o bl_bench.perf.data -- ./build_cold/bl_bench
 Then digest through `perfdigest.server.tools` — full narrative, cross-lens
 findings, and the token A/B in
 [`../results/DEMANDING_WORKLOADS_3_CPP_BUILD_LOOP_2026-07-19.md`](../results/DEMANDING_WORKLOADS_3_CPP_BUILD_LOOP_2026-07-19.md).
+
+### `cuda_opt_bench.cu` — the CUDA optimization loop
+
+```bash
+nvcc -O3 -arch=sm_89 -o cuda_opt_bench cuda_opt_bench.cu
+
+# ptxas codegen only (no run) — registers/spills/smem per variant
+nvcc -O3 -arch=sm_89 -Xptxas -v -c cuda_opt_bench.cu -o /dev/null 2> ptxas_verbose.txt
+
+# ncu — -k filters to the 3 transpose kernels (the binary also launches a
+# handful of small correctness/init helper kernels, excluded on purpose)
+ncu -k "regex:kernel_v[0-9]_" --set full -f -o cuda_opt ./cuda_opt_bench
+```
+
+Then digest through `perfdigest.server.tools` — the full v0→v1→v2 arc,
+`compare_metrics` deltas, ptxas-vs-measured-ranking analysis, and token A/B
+in
+[`../results/DEMANDING_WORKLOADS_4_CUDA_OPT_LOOP_2026-07-19.md`](../results/DEMANDING_WORKLOADS_4_CUDA_OPT_LOOP_2026-07-19.md).
+The ptxas text artifact used in that study is committed at
+[`../results/cuda_opt_bench_raw/ptxas_verbose.txt`](../results/cuda_opt_bench_raw/ptxas_verbose.txt)
+(the `.ncu-rep` is not — 125 MB, regenerate with the command above).
 
 ## Two capture gotchas this run surfaced (real, host-dependent)
 
