@@ -1,0 +1,31 @@
+{
+ "gil_enabled": true,
+ "mixed_paths_nthreads": {
+  "correct": true,
+  "iters_per_thread": 50,
+  "n_threads": 8,
+  "throughput_calls_per_s": 34194.32651918157,
+  "total_calls": 400,
+  "total_mismatches": 0,
+  "wall_time_s": 0.011697847003233619
+ },
+ "python_version": "3.14.3",
+ "same_path_1thread": {
+  "correct": true,
+  "iters_per_thread": 50,
+  "n_threads": 1,
+  "throughput_calls_per_s": 18624.096489945474,
+  "total_calls": 50,
+  "total_mismatches": 0,
+  "wall_time_s": 0.002684693994524423
+ },
+ "same_path_nthreads": {
+  "correct": true,
+  "iters_per_thread": 50,
+  "n_threads": 8,
+  "throughput_calls_per_s": 28558.271365725937,
+  "total_calls": 400,
+  "total_mismatches": 0,
+  "wall_time_s": 0.014006450001033954
+ }
+}

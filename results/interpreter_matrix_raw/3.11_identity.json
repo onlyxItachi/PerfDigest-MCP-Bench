@@ -1,0 +1,60 @@
+{
+ "python_version": "3.11.15",
+ "results": {
+  "cargo_diag:cargo-diag": {
+   "bytes": 486,
+   "sha256": "f148c41b863242d73177bb65af686a2b2161ca13329330e43c6456578fb412fb",
+   "total_units": 2
+  },
+  "chrome_trace:torch-trace": {
+   "bytes": 1191,
+   "sha256": "caae0da348d989d33165033c32488591a8c1a5b729fbb17fff72a910f556a4c6",
+   "total_units": 15
+  },
+  "clang_time_trace:clang-time-trace": {
+   "bytes": 1205,
+   "sha256": "c9e5b47e9f21464871849db694ce9a97f599509e661e632ca093c31ccd4baf89",
+   "total_units": 60
+  },
+  "cmake_profile:cmake-profile": {
+   "bytes": 1122,
+   "sha256": "ad8d520a3f67243bf27e97575508ae99488b410968febb5d74a04f914e895254",
+   "total_units": 50
+  },
+  "criterion:criterion": {
+   "bytes": 808,
+   "sha256": "b6b45fc80bef7f343af82ffc6bc7e1ef71df0ac76872f7b98bdfb777210e7f94",
+   "total_units": 2
+  },
+  "gha_log:gha-log": {
+   "bytes": 476,
+   "sha256": "a45ed5fd1ed1d63016824d9f3153b9e68ffbbcf121acbb7a3843545ab68e9012",
+   "total_units": 1
+  },
+  "git_numstat:git-numstat": {
+   "bytes": 1046,
+   "sha256": "4c899cdf6d10931d114a9dbe8fe1e78707bbde4cb2d0507d55c89023253a3767",
+   "total_units": 46
+  },
+  "linux_perf:perf-report": {
+   "bytes": 1533,
+   "sha256": "d4a959e3f66def2fd67bc380d64c507aebacd0aaa037c59e9862c903d47943af",
+   "total_units": 3
+  },
+  "linux_perf:perf-stat-json": {
+   "bytes": 599,
+   "sha256": "1384736cc101176f5802b1c5d4f7e20f26106ddc1aff1ac2098f98d1378660a3",
+   "total_units": 1
+  },
+  "ninja_log:ninja-log": {
+   "bytes": 786,
+   "sha256": "9cff3981c48f25ff8c015a87b9a49a7c12b81995f7f9d910995f7d6177fe9370",
+   "total_units": 4
+  },
+  "ptxas:ptxas-verbose": {
+   "bytes": 1421,
+   "sha256": "3bdf97458617ae08272a6cc925796459c414e766c2e69ad56457200f04caa636",
+   "total_units": 4
+  }
+ }
+}
