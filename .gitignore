@@ -21,3 +21,7 @@ Thumbs.db
 /workloads/cpu_bench
 *.o
 *.exe
+
+# cpp_project build trees (regenerable; the specific captured artifacts used
+# in the pt.3 study are committed separately under results/cpp_build_loop_raw/)
+/workloads/cpp_project/build*/

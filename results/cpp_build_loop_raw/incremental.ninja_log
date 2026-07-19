@@ -1,0 +1,11 @@
+# ninja log v7
+1	260	1784452278966965885	CMakeFiles/bl_core.dir/src/lib_alpha.cpp.o	4a534537f0158ee6
+1	329	1784452278968462131	CMakeFiles/bl_core.dir/src/lib_beta.cpp.o	842a41b28f039df3
+1	399	1784452278968603736	CMakeFiles/bl_core.dir/src/lib_gamma.cpp.o	6028bff717976ad6
+1	409	1784452278968867428	CMakeFiles/bl_bench.dir/src/main.cpp.o	42f92717faec9e0a
+1	2054	1784452278968734582	CMakeFiles/bl_core.dir/src/lib_template_heavy.cpp.o	c025dbdc1a45807
+2054	2078	1784452281020877037	libbl_core.a	9cdc2ac87f199fa5
+2078	2141	1784452281044876001	bl_bench	97e2a8b26b19e124
+1	2073	1784452290068489243	CMakeFiles/bl_core.dir/src/lib_template_heavy.cpp.o	c025dbdc1a45807
+2073	2099	1784452292140401255	libbl_core.a	9cdc2ac87f199fa5
+2099	2161	1784452292166400153	bl_bench	97e2a8b26b19e124
