@@ -28,7 +28,7 @@ on:
       - ".github/workflows/capture-matrix.yml"
 
 env:
-  PERFDIGEST_SPEC: perfdigest-mcp==1.1.1
+  PERFDIGEST_SPEC: perfdigest-mcp==1.2.0
 
 jobs:
   capture-perf:
