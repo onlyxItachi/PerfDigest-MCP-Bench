@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "perfdigest.benchmark-manifest.v1"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string"
+    },
+    "defaults": {
+      "type": "object",
+      "properties": {
+        "runs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "warmup": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "rssRuns": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "spawnIterations": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "runs",
+        "warmup",
+        "rssRuns",
+        "spawnIterations"
+      ],
+      "additionalProperties": false
+    },
+    "smokeDefaults": {
+      "type": "object",
+      "properties": {
+        "runs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "warmup": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "rssRuns": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "spawnIterations": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "runs",
+        "warmup",
+        "rssRuns",
+        "spawnIterations"
+      ],
+      "additionalProperties": false
+    },
+    "cells": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "layer": {
+            "type": "string",
+            "enum": [
+              "engine",
+              "orchestration",
+              "agent_e2e"
+            ]
+          },
+          "group": {
+            "type": "string",
+            "enum": [
+              "build",
+              "runtime",
+              "worker",
+              "agent"
+            ]
+          },
+          "backend": {
+            "type": "string",
+            "minLength": 1
+          },
+          "scenario": {
+            "type": "string",
+            "minLength": 1
+          },
+          "baseline": {
+            "default": false,
+            "type": "boolean"
+          },
+          "runs": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "warmup": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "smoke": {
+            "default": false,
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "layer",
+          "group",
+          "backend",
+          "scenario"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "id",
+    "description",
+    "defaults",
+    "smokeDefaults",
+    "cells"
+  ],
+  "additionalProperties": false,
+  "$id": "https://github.com/onlyxItachi/perfdigest-plugin/bench/schema/benchmark-manifest.v1.schema.json",
+  "title": "PerfDigest benchmark manifest v1"
+}

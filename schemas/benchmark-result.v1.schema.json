@@ -1,0 +1,723 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "perfdigest.benchmark-result.v1"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+    },
+    "manifest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "id",
+        "path",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "subject": {
+      "type": "object",
+      "properties": {
+        "repo": {
+          "type": "string",
+          "minLength": 1
+        },
+        "gitSha": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "dirty": {
+          "type": "boolean"
+        },
+        "ref": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "repo",
+        "gitSha",
+        "dirty"
+      ],
+      "additionalProperties": false
+    },
+    "host": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "os": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kernel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "arch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cpuModel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "logicalCpus": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "memTotalKb": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "loadavg1AtStart": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "label",
+        "os",
+        "kernel",
+        "arch",
+        "cpuModel",
+        "logicalCpus",
+        "memTotalKb",
+        "loadavg1AtStart"
+      ],
+      "additionalProperties": false
+    },
+    "tools": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "source": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "version"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "full",
+        "smoke"
+      ]
+    },
+    "layerSummary": {
+      "type": "object",
+      "properties": {
+        "engine": {
+          "type": "object",
+          "properties": {
+            "total": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "measured": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "notRun": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "failed": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "parityPass": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "parityFail": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "parityNotApplicable": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "total",
+            "measured",
+            "notRun",
+            "failed",
+            "parityPass",
+            "parityFail",
+            "parityNotApplicable"
+          ],
+          "additionalProperties": false
+        },
+        "orchestration": {
+          "type": "object",
+          "properties": {
+            "total": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "measured": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "notRun": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "failed": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "parityPass": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "parityFail": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "parityNotApplicable": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "total",
+            "measured",
+            "notRun",
+            "failed",
+            "parityPass",
+            "parityFail",
+            "parityNotApplicable"
+          ],
+          "additionalProperties": false
+        },
+        "agent_e2e": {
+          "type": "object",
+          "properties": {
+            "total": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "measured": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "notRun": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "failed": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "parityPass": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "parityFail": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "parityNotApplicable": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "total",
+            "measured",
+            "notRun",
+            "failed",
+            "parityPass",
+            "parityFail",
+            "parityNotApplicable"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "engine",
+        "orchestration",
+        "agent_e2e"
+      ],
+      "additionalProperties": false
+    },
+    "benchCompatibility": {
+      "type": "object",
+      "properties": {
+        "upstreamRepo": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rawResultDirs": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "fieldMapping": {
+          "type": "object",
+          "properties": {
+            "latencyJson": {
+              "type": "string",
+              "minLength": 1
+            },
+            "identityJson": {
+              "type": "string",
+              "minLength": 1
+            },
+            "startupJson": {
+              "type": "string",
+              "minLength": 1
+            },
+            "concurrencyJson": {
+              "type": "string",
+              "minLength": 1
+            },
+            "loadavgJson": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "latencyJson",
+            "identityJson",
+            "startupJson",
+            "concurrencyJson",
+            "loadavgJson"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "upstreamRepo",
+        "rawResultDirs",
+        "fieldMapping"
+      ],
+      "additionalProperties": false
+    },
+    "cells": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "layer": {
+            "type": "string",
+            "enum": [
+              "engine",
+              "orchestration",
+              "agent_e2e"
+            ]
+          },
+          "group": {
+            "type": "string",
+            "enum": [
+              "build",
+              "runtime",
+              "worker",
+              "agent"
+            ]
+          },
+          "backend": {
+            "type": "string",
+            "minLength": 1
+          },
+          "scenario": {
+            "type": "string",
+            "minLength": 1
+          },
+          "baseline": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "measured",
+              "not-run",
+              "failed"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          },
+          "command": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "method": {
+            "type": "string"
+          },
+          "warmup": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "wall": {
+            "type": "object",
+            "properties": {
+              "unit": {
+                "type": "string",
+                "enum": [
+                  "ms",
+                  "us",
+                  "s",
+                  "kb"
+                ]
+              },
+              "n": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "median": {
+                "type": "number"
+              },
+              "min": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              },
+              "mean": {
+                "type": "number"
+              },
+              "stdev": {
+                "type": "number",
+                "minimum": 0
+              },
+              "q1": {
+                "type": "number"
+              },
+              "q3": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "unit",
+              "n",
+              "median",
+              "min",
+              "max",
+              "mean",
+              "stdev"
+            ],
+            "additionalProperties": false
+          },
+          "cpu": {
+            "type": "object",
+            "properties": {
+              "unit": {
+                "type": "string",
+                "const": "ms"
+              },
+              "n": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "userMedian": {
+                "type": "number"
+              },
+              "sysMedian": {
+                "type": "number"
+              },
+              "cgroupUserMedianMs": {
+                "type": "number"
+              },
+              "cgroupSysMedianMs": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "unit",
+              "n",
+              "userMedian",
+              "sysMedian"
+            ],
+            "additionalProperties": false
+          },
+          "memoryCoverage": {
+            "type": "string",
+            "enum": [
+              "cgroup_v2_tree_peak",
+              "max_single_process_only_incomplete_tree",
+              "none"
+            ]
+          },
+          "peakRssKb": {
+            "type": "object",
+            "properties": {
+              "unit": {
+                "type": "string",
+                "enum": [
+                  "ms",
+                  "us",
+                  "s",
+                  "kb"
+                ]
+              },
+              "n": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "median": {
+                "type": "number"
+              },
+              "min": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              },
+              "mean": {
+                "type": "number"
+              },
+              "stdev": {
+                "type": "number",
+                "minimum": 0
+              },
+              "q1": {
+                "type": "number"
+              },
+              "q3": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "unit",
+              "n",
+              "median",
+              "min",
+              "max",
+              "mean",
+              "stdev"
+            ],
+            "additionalProperties": false
+          },
+          "cgroupTreePeakKb": {
+            "type": "object",
+            "properties": {
+              "unit": {
+                "type": "string",
+                "enum": [
+                  "ms",
+                  "us",
+                  "s",
+                  "kb"
+                ]
+              },
+              "n": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "median": {
+                "type": "number"
+              },
+              "min": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              },
+              "mean": {
+                "type": "number"
+              },
+              "stdev": {
+                "type": "number",
+                "minimum": 0
+              },
+              "q1": {
+                "type": "number"
+              },
+              "q3": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "unit",
+              "n",
+              "median",
+              "min",
+              "max",
+              "mean",
+              "stdev"
+            ],
+            "additionalProperties": false
+          },
+          "parity": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "pass",
+                  "fail",
+                  "not-checked",
+                  "not-applicable"
+                ]
+              },
+              "checks": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "pass": {
+                      "type": "boolean"
+                    },
+                    "detail": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "pass"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "status",
+              "checks"
+            ],
+            "additionalProperties": false
+          },
+          "extra": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          }
+        },
+        "required": [
+          "id",
+          "layer",
+          "group",
+          "backend",
+          "scenario",
+          "baseline",
+          "status",
+          "command",
+          "parity"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "limits": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "createdAt",
+    "manifest",
+    "subject",
+    "host",
+    "tools",
+    "mode",
+    "layerSummary",
+    "benchCompatibility",
+    "cells",
+    "claims",
+    "limits"
+  ],
+  "additionalProperties": false,
+  "$id": "https://github.com/onlyxItachi/perfdigest-plugin/bench/schema/benchmark-result.v1.schema.json",
+  "title": "PerfDigest benchmark result v1"
+}

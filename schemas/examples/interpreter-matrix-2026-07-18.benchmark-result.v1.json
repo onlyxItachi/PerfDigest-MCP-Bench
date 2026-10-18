@@ -1,0 +1,4607 @@
+{
+  "schema": "perfdigest.benchmark-result.v1",
+  "createdAt": "2026-07-18T00:00:00Z",
+  "manifest": {
+    "id": "interpreter-matrix-2026-07-18",
+    "path": "workloads/interpreter_matrix.py",
+    "sha256": "2710c10d5aec5fe77f6fce9c30f1811372574b015a704c7e94b10cd14b323f70"
+  },
+  "subject": {
+    "repo": "onlyxItachi/PerfDigest-MCP-Bench",
+    "gitSha": "724af68faa7564cc134285789645776d562e94e1",
+    "dirty": false,
+    "ref": "perfdigest-mcp@76796f0 (v1.2.0-rc)"
+  },
+  "host": {
+    "label": "amd-ryzen-ai-9-hx-370-x64",
+    "os": "Linux 7.0.0-27-generic",
+    "kernel": "7.0.0-27-generic",
+    "arch": "x64",
+    "cpuModel": "AMD Ryzen AI 9 HX 370 w/ Radeon 890M",
+    "logicalCpus": 24,
+    "memTotalKb": 14927160,
+    "loadavg1AtStart": 0.84716796875
+  },
+  "tools": [
+    {
+      "name": "perfdigest-mcp",
+      "version": "1.2.0-rc",
+      "source": "onlyxItachi/PerfDigest-MCP@76796f0"
+    },
+    {
+      "name": "uv",
+      "version": "0.10.11",
+      "source": "system"
+    },
+    {
+      "name": "cpython-3.10",
+      "version": "3.10.20",
+      "source": "uv python install"
+    },
+    {
+      "name": "cpython-3.11",
+      "version": "3.11.15",
+      "source": "uv python install"
+    },
+    {
+      "name": "cpython-3.12",
+      "version": "3.12.13",
+      "source": "uv python install"
+    },
+    {
+      "name": "cpython-3.13",
+      "version": "3.13.12",
+      "source": "uv python install"
+    },
+    {
+      "name": "cpython-3.14",
+      "version": "3.14.3",
+      "source": "uv python install"
+    },
+    {
+      "name": "cpython-3.14t",
+      "version": "3.14.3+freethreaded",
+      "source": "uv python install"
+    }
+  ],
+  "mode": "full",
+  "layerSummary": {
+    "engine": {
+      "total": 72,
+      "measured": 72,
+      "notRun": 0,
+      "failed": 0,
+      "parityPass": 72,
+      "parityFail": 0,
+      "parityNotApplicable": 0
+    },
+    "orchestration": {
+      "total": 0,
+      "measured": 0,
+      "notRun": 0,
+      "failed": 0,
+      "parityPass": 0,
+      "parityFail": 0,
+      "parityNotApplicable": 0
+    },
+    "agent_e2e": {
+      "total": 0,
+      "measured": 0,
+      "notRun": 0,
+      "failed": 0,
+      "parityPass": 0,
+      "parityFail": 0,
+      "parityNotApplicable": 0
+    }
+  },
+  "benchCompatibility": {
+    "upstreamRepo": "onlyxItachi/PerfDigest-MCP-Bench",
+    "rawResultDirs": [
+      "results/interpreter_matrix_raw",
+      "results/cpp_build_loop_raw",
+      "results/cuda_opt_bench_raw"
+    ],
+    "fieldMapping": {
+      "latencyJson": "results/<backend>:<format>.{median_us,q1_us,q3_us,n} -> cells[layer=\"engine\"].wall.{unit:\"us\",median,q1,q3,n}",
+      "identityJson": "results/<backend>:<format>.{sha256,bytes,total_units} -> cells[layer=\"engine\"].parity.checks[name=\"digest-sha256:<backend>:<format>\"]",
+      "startupJson": "median_startup_s -> cells[layer=\"engine\",scenario=\"interpreter-startup\"].wall.{unit:\"s\",median}",
+      "concurrencyJson": "{same_path_1thread,same_path_nthreads,mixed_paths_nthreads}.{wall_time_s,throughput_calls_per_s,correct} -> cells[layer=\"engine\"].extra.concurrency",
+      "loadavgJson": "latency_loadavg.json -> host.loadavg1AtStart"
+    }
+  },
+  "cells": [
+    {
+      "id": "engine.cpython-3.10.linux_perf.perf-stat-json",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.10",
+      "scenario": "digest-parse:linux_perf:perf-stat-json",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.10>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 18.450002244208008,
+        "min": 18.38000025600195,
+        "max": 18.530001398175955,
+        "mean": 18.450002244208008,
+        "stdev": 0.1500011421740055,
+        "q1": 18.38000025600195,
+        "q3": 18.530001398175955
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:linux_perf:perf-stat-json",
+            "pass": true,
+            "detail": "sha256=1384736cc101176f5802b1c5d4f7e20f26106ddc1aff1ac2098f98d1378660a3 bytes=599 total_units=1 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.10.20",
+        "iqrUs": 0.1500011421740055,
+        "identity": {
+          "sha256": "1384736cc101176f5802b1c5d4f7e20f26106ddc1aff1ac2098f98d1378660a3",
+          "bytes": 599,
+          "total_units": 1,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.10.linux_perf.perf-report",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.10",
+      "scenario": "digest-parse:linux_perf:perf-report",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.10>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 8.060000254772604,
+        "min": 8.032500772969797,
+        "max": 8.09999619377777,
+        "mean": 8.060000254772604,
+        "stdev": 0.06749542080797255,
+        "q1": 8.032500772969797,
+        "q3": 8.09999619377777
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:linux_perf:perf-report",
+            "pass": true,
+            "detail": "sha256=d4a959e3f66def2fd67bc380d64c507aebacd0aaa037c59e9862c903d47943af bytes=1533 total_units=3 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.10.20",
+        "iqrUs": 0.06749542080797255,
+        "identity": {
+          "sha256": "d4a959e3f66def2fd67bc380d64c507aebacd0aaa037c59e9862c903d47943af",
+          "bytes": 1533,
+          "total_units": 3,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.10.ptxas.ptxas-verbose",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.10",
+      "scenario": "digest-parse:ptxas:ptxas-verbose",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.10>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 27.34999725362286,
+        "min": 27.289999707136303,
+        "max": 27.427497116150334,
+        "mean": 27.34999725362286,
+        "stdev": 0.1374974090140313,
+        "q1": 27.289999707136303,
+        "q3": 27.427497116150334
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:ptxas:ptxas-verbose",
+            "pass": true,
+            "detail": "sha256=3bdf97458617ae08272a6cc925796459c414e766c2e69ad56457200f04caa636 bytes=1421 total_units=4 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.10.20",
+        "iqrUs": 0.1374974090140313,
+        "identity": {
+          "sha256": "3bdf97458617ae08272a6cc925796459c414e766c2e69ad56457200f04caa636",
+          "bytes": 1421,
+          "total_units": 4,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.10.chrome_trace.torch-trace",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.10",
+      "scenario": "digest-parse:chrome_trace:torch-trace",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.10>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 139.17049727751873,
+        "min": 138.68500172975473,
+        "max": 140.64324932405725,
+        "mean": 139.17049727751873,
+        "stdev": 1.9582475943025202,
+        "q1": 138.68500172975473,
+        "q3": 140.64324932405725
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:chrome_trace:torch-trace",
+            "pass": true,
+            "detail": "sha256=caae0da348d989d33165033c32488591a8c1a5b729fbb17fff72a910f556a4c6 bytes=1191 total_units=15 matches_3.14=False"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.10.20",
+        "iqrUs": 1.9582475943025202,
+        "identity": {
+          "sha256": "caae0da348d989d33165033c32488591a8c1a5b729fbb17fff72a910f556a4c6",
+          "bytes": 1191,
+          "total_units": 15,
+          "matchesGilBaseline": false
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.10.clang_time_trace.clang-time-trace",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.10",
+      "scenario": "digest-parse:clang_time_trace:clang-time-trace",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.10>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 339.2200014786795,
+        "min": 337.7150005690055,
+        "max": 340.37749901472125,
+        "mean": 339.2200014786795,
+        "stdev": 2.6624984457157552,
+        "q1": 337.7150005690055,
+        "q3": 340.37749901472125
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:clang_time_trace:clang-time-trace",
+            "pass": true,
+            "detail": "sha256=c9e5b47e9f21464871849db694ce9a97f599509e661e632ca093c31ccd4baf89 bytes=1205 total_units=60 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.10.20",
+        "iqrUs": 2.6624984457157552,
+        "identity": {
+          "sha256": "c9e5b47e9f21464871849db694ce9a97f599509e661e632ca093c31ccd4baf89",
+          "bytes": 1205,
+          "total_units": 60,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.10.cmake_profile.cmake-profile",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.10",
+      "scenario": "digest-parse:cmake_profile:cmake-profile",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.10>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 1649.7024989803322,
+        "min": 1630.925245990511,
+        "max": 1667.0645018166397,
+        "mean": 1649.7024989803322,
+        "stdev": 36.13925582612865,
+        "q1": 1630.925245990511,
+        "q3": 1667.0645018166397
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:cmake_profile:cmake-profile",
+            "pass": true,
+            "detail": "sha256=ad8d520a3f67243bf27e97575508ae99488b410968febb5d74a04f914e895254 bytes=1122 total_units=50 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.10.20",
+        "iqrUs": 36.13925582612865,
+        "identity": {
+          "sha256": "ad8d520a3f67243bf27e97575508ae99488b410968febb5d74a04f914e895254",
+          "bytes": 1122,
+          "total_units": 50,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.10.ninja_log.ninja-log",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.10",
+      "scenario": "digest-parse:ninja_log:ninja-log",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.10>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 8.749997505219653,
+        "min": 8.712502676644363,
+        "max": 8.797496775514446,
+        "mean": 8.749997505219653,
+        "stdev": 0.08499409887008369,
+        "q1": 8.712502676644363,
+        "q3": 8.797496775514446
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:ninja_log:ninja-log",
+            "pass": true,
+            "detail": "sha256=9cff3981c48f25ff8c015a87b9a49a7c12b81995f7f9d910995f7d6177fe9370 bytes=786 total_units=4 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.10.20",
+        "iqrUs": 0.08499409887008369,
+        "identity": {
+          "sha256": "9cff3981c48f25ff8c015a87b9a49a7c12b81995f7f9d910995f7d6177fe9370",
+          "bytes": 786,
+          "total_units": 4,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.10.cargo_diag.cargo-diag",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.10",
+      "scenario": "digest-parse:cargo_diag:cargo-diag",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.10>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 23.669999791309237,
+        "min": 23.559996407129802,
+        "max": 23.87250424362719,
+        "mean": 23.669999791309237,
+        "stdev": 0.3125078364973888,
+        "q1": 23.559996407129802,
+        "q3": 23.87250424362719
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:cargo_diag:cargo-diag",
+            "pass": true,
+            "detail": "sha256=f148c41b863242d73177bb65af686a2b2161ca13329330e43c6456578fb412fb bytes=486 total_units=2 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.10.20",
+        "iqrUs": 0.3125078364973888,
+        "identity": {
+          "sha256": "f148c41b863242d73177bb65af686a2b2161ca13329330e43c6456578fb412fb",
+          "bytes": 486,
+          "total_units": 2,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.10.gha_log.gha-log",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.10",
+      "scenario": "digest-parse:gha_log:gha-log",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.10>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 459.9410021910444,
+        "min": 458.7460007314803,
+        "max": 461.6959995473735,
+        "mean": 459.9410021910444,
+        "stdev": 2.9499988158931956,
+        "q1": 458.7460007314803,
+        "q3": 461.6959995473735
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:gha_log:gha-log",
+            "pass": true,
+            "detail": "sha256=a45ed5fd1ed1d63016824d9f3153b9e68ffbbcf121acbb7a3843545ab68e9012 bytes=476 total_units=1 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.10.20",
+        "iqrUs": 2.9499988158931956,
+        "identity": {
+          "sha256": "a45ed5fd1ed1d63016824d9f3153b9e68ffbbcf121acbb7a3843545ab68e9012",
+          "bytes": 476,
+          "total_units": 1,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.10.git_numstat.git-numstat",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.10",
+      "scenario": "digest-parse:git_numstat:git-numstat",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.10>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 63.75999510055408,
+        "min": 63.53025128191803,
+        "max": 64.3107523501385,
+        "mean": 63.75999510055408,
+        "stdev": 0.7805010682204738,
+        "q1": 63.53025128191803,
+        "q3": 64.3107523501385
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:git_numstat:git-numstat",
+            "pass": true,
+            "detail": "sha256=4c899cdf6d10931d114a9dbe8fe1e78707bbde4cb2d0507d55c89023253a3767 bytes=1046 total_units=46 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.10.20",
+        "iqrUs": 0.7805010682204738,
+        "identity": {
+          "sha256": "4c899cdf6d10931d114a9dbe8fe1e78707bbde4cb2d0507d55c89023253a3767",
+          "bytes": 1046,
+          "total_units": 46,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.10.criterion.criterion",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.10",
+      "scenario": "digest-parse:criterion:criterion",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.10>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 87.81499855103903,
+        "min": 86.93249765201472,
+        "max": 89.27574526751414,
+        "mean": 87.81499855103903,
+        "stdev": 2.343247615499422,
+        "q1": 86.93249765201472,
+        "q3": 89.27574526751414
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:criterion:criterion",
+            "pass": true,
+            "detail": "sha256=b6b45fc80bef7f343af82ffc6bc7e1ef71df0ac76872f7b98bdfb777210e7f94 bytes=808 total_units=2 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.10.20",
+        "iqrUs": 2.343247615499422,
+        "identity": {
+          "sha256": "b6b45fc80bef7f343af82ffc6bc7e1ef71df0ac76872f7b98bdfb777210e7f94",
+          "bytes": 808,
+          "total_units": 2,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.10.interpreter-startup",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.10",
+      "scenario": "interpreter-startup",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.10>/bin/python",
+        "-c",
+        "import perfdigest.server.app"
+      ],
+      "method": "subprocess import timer: median of 5 repetitions importing perfdigest.server.app",
+      "warmup": 0,
+      "wall": {
+        "unit": "s",
+        "n": 5,
+        "median": 0.29798926699731965,
+        "min": 0.29798926699731965,
+        "max": 0.29798926699731965,
+        "mean": 0.29798926699731965,
+        "stdev": 0.0,
+        "q1": 0.29798926699731965,
+        "q3": 0.29798926699731965
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "import:perfdigest.server.app",
+            "pass": true,
+            "detail": "python_version=3.10.20 median_startup_s=0.29798926699731965"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.10.20",
+        "loadavg_1_5_15": [
+          0.84716796875,
+          39.677734375,
+          51.1005859375
+        ]
+      }
+    },
+    {
+      "id": "engine.cpython-3.11.linux_perf.perf-stat-json",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.11",
+      "scenario": "digest-parse:linux_perf:perf-stat-json",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.11>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 15.215500752674416,
+        "min": 15.044995961943641,
+        "max": 15.535000784439035,
+        "mean": 15.215500752674416,
+        "stdev": 0.49000482249539346,
+        "q1": 15.044995961943641,
+        "q3": 15.535000784439035
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:linux_perf:perf-stat-json",
+            "pass": true,
+            "detail": "sha256=1384736cc101176f5802b1c5d4f7e20f26106ddc1aff1ac2098f98d1378660a3 bytes=599 total_units=1 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.11.15",
+        "iqrUs": 0.49000482249539346,
+        "identity": {
+          "sha256": "1384736cc101176f5802b1c5d4f7e20f26106ddc1aff1ac2098f98d1378660a3",
+          "bytes": 599,
+          "total_units": 1,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.11.linux_perf.perf-report",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.11",
+      "scenario": "digest-parse:linux_perf:perf-report",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.11>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 7.364997145486996,
+        "min": 7.265000022016466,
+        "max": 7.51750121708028,
+        "mean": 7.364997145486996,
+        "stdev": 0.2525011950638145,
+        "q1": 7.265000022016466,
+        "q3": 7.51750121708028
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:linux_perf:perf-report",
+            "pass": true,
+            "detail": "sha256=d4a959e3f66def2fd67bc380d64c507aebacd0aaa037c59e9862c903d47943af bytes=1533 total_units=3 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.11.15",
+        "iqrUs": 0.2525011950638145,
+        "identity": {
+          "sha256": "d4a959e3f66def2fd67bc380d64c507aebacd0aaa037c59e9862c903d47943af",
+          "bytes": 1533,
+          "total_units": 3,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.11.ptxas.ptxas-verbose",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.11",
+      "scenario": "digest-parse:ptxas:ptxas-verbose",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.11>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 24.344997655134648,
+        "min": 24.104996555252,
+        "max": 24.682502044015564,
+        "mean": 24.344997655134648,
+        "stdev": 0.5775054887635633,
+        "q1": 24.104996555252,
+        "q3": 24.682502044015564
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:ptxas:ptxas-verbose",
+            "pass": true,
+            "detail": "sha256=3bdf97458617ae08272a6cc925796459c414e766c2e69ad56457200f04caa636 bytes=1421 total_units=4 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.11.15",
+        "iqrUs": 0.5775054887635633,
+        "identity": {
+          "sha256": "3bdf97458617ae08272a6cc925796459c414e766c2e69ad56457200f04caa636",
+          "bytes": 1421,
+          "total_units": 4,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.11.chrome_trace.torch-trace",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.11",
+      "scenario": "digest-parse:chrome_trace:torch-trace",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.11>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 120.69000513292849,
+        "min": 119.90499660896603,
+        "max": 122.47999984538183,
+        "mean": 120.69000513292849,
+        "stdev": 2.575003236415796,
+        "q1": 119.90499660896603,
+        "q3": 122.47999984538183
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:chrome_trace:torch-trace",
+            "pass": true,
+            "detail": "sha256=caae0da348d989d33165033c32488591a8c1a5b729fbb17fff72a910f556a4c6 bytes=1191 total_units=15 matches_3.14=False"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.11.15",
+        "iqrUs": 2.575003236415796,
+        "identity": {
+          "sha256": "caae0da348d989d33165033c32488591a8c1a5b729fbb17fff72a910f556a4c6",
+          "bytes": 1191,
+          "total_units": 15,
+          "matchesGilBaseline": false
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.11.clang_time_trace.clang-time-trace",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.11",
+      "scenario": "digest-parse:clang_time_trace:clang-time-trace",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.11>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 282.1554990077857,
+        "min": 280.93024957343005,
+        "max": 283.830249827588,
+        "mean": 282.1554990077857,
+        "stdev": 2.9000002541579306,
+        "q1": 280.93024957343005,
+        "q3": 283.830249827588
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:clang_time_trace:clang-time-trace",
+            "pass": true,
+            "detail": "sha256=c9e5b47e9f21464871849db694ce9a97f599509e661e632ca093c31ccd4baf89 bytes=1205 total_units=60 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.11.15",
+        "iqrUs": 2.9000002541579306,
+        "identity": {
+          "sha256": "c9e5b47e9f21464871849db694ce9a97f599509e661e632ca093c31ccd4baf89",
+          "bytes": 1205,
+          "total_units": 60,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.11.cmake_profile.cmake-profile",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.11",
+      "scenario": "digest-parse:cmake_profile:cmake-profile",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.11>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 1295.8570005139336,
+        "min": 1286.4969976362772,
+        "max": 1309.8519957566168,
+        "mean": 1295.8570005139336,
+        "stdev": 23.354998120339587,
+        "q1": 1286.4969976362772,
+        "q3": 1309.8519957566168
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:cmake_profile:cmake-profile",
+            "pass": true,
+            "detail": "sha256=ad8d520a3f67243bf27e97575508ae99488b410968febb5d74a04f914e895254 bytes=1122 total_units=50 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.11.15",
+        "iqrUs": 23.354998120339587,
+        "identity": {
+          "sha256": "ad8d520a3f67243bf27e97575508ae99488b410968febb5d74a04f914e895254",
+          "bytes": 1122,
+          "total_units": 50,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.11.ninja_log.ninja-log",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.11",
+      "scenario": "digest-parse:ninja_log:ninja-log",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.11>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 7.58500027586706,
+        "min": 7.490001735277474,
+        "max": 7.707503755227663,
+        "mean": 7.58500027586706,
+        "stdev": 0.2175020199501887,
+        "q1": 7.490001735277474,
+        "q3": 7.707503755227663
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:ninja_log:ninja-log",
+            "pass": true,
+            "detail": "sha256=9cff3981c48f25ff8c015a87b9a49a7c12b81995f7f9d910995f7d6177fe9370 bytes=786 total_units=4 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.11.15",
+        "iqrUs": 0.2175020199501887,
+        "identity": {
+          "sha256": "9cff3981c48f25ff8c015a87b9a49a7c12b81995f7f9d910995f7d6177fe9370",
+          "bytes": 786,
+          "total_units": 4,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.11.cargo_diag.cargo-diag",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.11",
+      "scenario": "digest-parse:cargo_diag:cargo-diag",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.11>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 21.0149992199149,
+        "min": 20.822499209316447,
+        "max": 21.56249865947757,
+        "mean": 21.0149992199149,
+        "stdev": 0.7399994501611218,
+        "q1": 20.822499209316447,
+        "q3": 21.56249865947757
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:cargo_diag:cargo-diag",
+            "pass": true,
+            "detail": "sha256=f148c41b863242d73177bb65af686a2b2161ca13329330e43c6456578fb412fb bytes=486 total_units=2 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.11.15",
+        "iqrUs": 0.7399994501611218,
+        "identity": {
+          "sha256": "f148c41b863242d73177bb65af686a2b2161ca13329330e43c6456578fb412fb",
+          "bytes": 486,
+          "total_units": 2,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.11.gha_log.gha-log",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.11",
+      "scenario": "digest-parse:gha_log:gha-log",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.11>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 394.7155018977355,
+        "min": 393.1557494070148,
+        "max": 396.09275154361967,
+        "mean": 394.7155018977355,
+        "stdev": 2.9370021366048604,
+        "q1": 393.1557494070148,
+        "q3": 396.09275154361967
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:gha_log:gha-log",
+            "pass": true,
+            "detail": "sha256=a45ed5fd1ed1d63016824d9f3153b9e68ffbbcf121acbb7a3843545ab68e9012 bytes=476 total_units=1 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.11.15",
+        "iqrUs": 2.9370021366048604,
+        "identity": {
+          "sha256": "a45ed5fd1ed1d63016824d9f3153b9e68ffbbcf121acbb7a3843545ab68e9012",
+          "bytes": 476,
+          "total_units": 1,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.11.git_numstat.git-numstat",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.11",
+      "scenario": "digest-parse:git_numstat:git-numstat",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.11>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 53.21999924490228,
+        "min": 53.1049972778419,
+        "max": 53.41000360203907,
+        "mean": 53.21999924490228,
+        "stdev": 0.30500632419716567,
+        "q1": 53.1049972778419,
+        "q3": 53.41000360203907
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:git_numstat:git-numstat",
+            "pass": true,
+            "detail": "sha256=4c899cdf6d10931d114a9dbe8fe1e78707bbde4cb2d0507d55c89023253a3767 bytes=1046 total_units=46 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.11.15",
+        "iqrUs": 0.30500632419716567,
+        "identity": {
+          "sha256": "4c899cdf6d10931d114a9dbe8fe1e78707bbde4cb2d0507d55c89023253a3767",
+          "bytes": 1046,
+          "total_units": 46,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.11.criterion.criterion",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.11",
+      "scenario": "digest-parse:criterion:criterion",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.11>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 74.71500066458248,
+        "min": 73.99249807349406,
+        "max": 75.76250027341302,
+        "mean": 74.71500066458248,
+        "stdev": 1.770002199918963,
+        "q1": 73.99249807349406,
+        "q3": 75.76250027341302
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:criterion:criterion",
+            "pass": true,
+            "detail": "sha256=b6b45fc80bef7f343af82ffc6bc7e1ef71df0ac76872f7b98bdfb777210e7f94 bytes=808 total_units=2 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.11.15",
+        "iqrUs": 1.770002199918963,
+        "identity": {
+          "sha256": "b6b45fc80bef7f343af82ffc6bc7e1ef71df0ac76872f7b98bdfb777210e7f94",
+          "bytes": 808,
+          "total_units": 2,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.11.interpreter-startup",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.11",
+      "scenario": "interpreter-startup",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.11>/bin/python",
+        "-c",
+        "import perfdigest.server.app"
+      ],
+      "method": "subprocess import timer: median of 5 repetitions importing perfdigest.server.app",
+      "warmup": 0,
+      "wall": {
+        "unit": "s",
+        "n": 5,
+        "median": 0.27969157599727623,
+        "min": 0.27969157599727623,
+        "max": 0.27969157599727623,
+        "mean": 0.27969157599727623,
+        "stdev": 0.0,
+        "q1": 0.27969157599727623,
+        "q3": 0.27969157599727623
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "import:perfdigest.server.app",
+            "pass": true,
+            "detail": "python_version=3.11.15 median_startup_s=0.27969157599727623"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.11.15",
+        "loadavg_1_5_15": [
+          0.84716796875,
+          39.677734375,
+          51.1005859375
+        ]
+      }
+    },
+    {
+      "id": "engine.cpython-3.12.linux_perf.perf-stat-json",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.12",
+      "scenario": "digest-parse:linux_perf:perf-stat-json",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.12>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 15.03000021330081,
+        "min": 14.940000255592167,
+        "max": 15.177503883023746,
+        "mean": 15.03000021330081,
+        "stdev": 0.23750362743157893,
+        "q1": 14.940000255592167,
+        "q3": 15.177503883023746
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:linux_perf:perf-stat-json",
+            "pass": true,
+            "detail": "sha256=1384736cc101176f5802b1c5d4f7e20f26106ddc1aff1ac2098f98d1378660a3 bytes=599 total_units=1 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.12.13",
+        "iqrUs": 0.23750362743157893,
+        "identity": {
+          "sha256": "1384736cc101176f5802b1c5d4f7e20f26106ddc1aff1ac2098f98d1378660a3",
+          "bytes": 599,
+          "total_units": 1,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.12.linux_perf.perf-report",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.12",
+      "scenario": "digest-parse:linux_perf:perf-report",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.12>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 7.374997949227691,
+        "min": 7.332497261813842,
+        "max": 7.460001143044792,
+        "mean": 7.374997949227691,
+        "stdev": 0.12750388123095036,
+        "q1": 7.332497261813842,
+        "q3": 7.460001143044792
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:linux_perf:perf-report",
+            "pass": true,
+            "detail": "sha256=d4a959e3f66def2fd67bc380d64c507aebacd0aaa037c59e9862c903d47943af bytes=1533 total_units=3 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.12.13",
+        "iqrUs": 0.12750388123095036,
+        "identity": {
+          "sha256": "d4a959e3f66def2fd67bc380d64c507aebacd0aaa037c59e9862c903d47943af",
+          "bytes": 1533,
+          "total_units": 3,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.12.ptxas.ptxas-verbose",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.12",
+      "scenario": "digest-parse:ptxas:ptxas-verbose",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.12>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 22.675001673633233,
+        "min": 22.609996449318714,
+        "max": 22.867496227263473,
+        "mean": 22.675001673633233,
+        "stdev": 0.25749977794475853,
+        "q1": 22.609996449318714,
+        "q3": 22.867496227263473
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:ptxas:ptxas-verbose",
+            "pass": true,
+            "detail": "sha256=3bdf97458617ae08272a6cc925796459c414e766c2e69ad56457200f04caa636 bytes=1421 total_units=4 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.12.13",
+        "iqrUs": 0.25749977794475853,
+        "identity": {
+          "sha256": "3bdf97458617ae08272a6cc925796459c414e766c2e69ad56457200f04caa636",
+          "bytes": 1421,
+          "total_units": 4,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.12.chrome_trace.torch-trace",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.12",
+      "scenario": "digest-parse:chrome_trace:torch-trace",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.12>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 131.04899699101225,
+        "min": 130.19399921176955,
+        "max": 132.58149920147844,
+        "mean": 131.04899699101225,
+        "stdev": 2.3874999897088856,
+        "q1": 130.19399921176955,
+        "q3": 132.58149920147844
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:chrome_trace:torch-trace",
+            "pass": true,
+            "detail": "sha256=4e5754d2867ced9323738a5aeebf8a1e91426f99d38dbe1445fab71977f17e09 bytes=1192 total_units=15 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.12.13",
+        "iqrUs": 2.3874999897088856,
+        "identity": {
+          "sha256": "4e5754d2867ced9323738a5aeebf8a1e91426f99d38dbe1445fab71977f17e09",
+          "bytes": 1192,
+          "total_units": 15,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.12.clang_time_trace.clang-time-trace",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.12",
+      "scenario": "digest-parse:clang_time_trace:clang-time-trace",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.12>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 303.86800062842667,
+        "min": 301.91550104063936,
+        "max": 306.3122530875262,
+        "mean": 303.86800062842667,
+        "stdev": 4.3967520468868315,
+        "q1": 301.91550104063936,
+        "q3": 306.3122530875262
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:clang_time_trace:clang-time-trace",
+            "pass": true,
+            "detail": "sha256=c9e5b47e9f21464871849db694ce9a97f599509e661e632ca093c31ccd4baf89 bytes=1205 total_units=60 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.12.13",
+        "iqrUs": 4.3967520468868315,
+        "identity": {
+          "sha256": "c9e5b47e9f21464871849db694ce9a97f599509e661e632ca093c31ccd4baf89",
+          "bytes": 1205,
+          "total_units": 60,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.12.cmake_profile.cmake-profile",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.12",
+      "scenario": "digest-parse:cmake_profile:cmake-profile",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.12>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 1384.6699985151645,
+        "min": 1378.797500365181,
+        "max": 1403.219997882843,
+        "mean": 1384.6699985151645,
+        "stdev": 24.422497517662123,
+        "q1": 1378.797500365181,
+        "q3": 1403.219997882843
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:cmake_profile:cmake-profile",
+            "pass": true,
+            "detail": "sha256=ad8d520a3f67243bf27e97575508ae99488b410968febb5d74a04f914e895254 bytes=1122 total_units=50 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.12.13",
+        "iqrUs": 24.422497517662123,
+        "identity": {
+          "sha256": "ad8d520a3f67243bf27e97575508ae99488b410968febb5d74a04f914e895254",
+          "bytes": 1122,
+          "total_units": 50,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.12.ninja_log.ninja-log",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.12",
+      "scenario": "digest-parse:ninja_log:ninja-log",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.12>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 7.269500201800838,
+        "min": 7.229997208924033,
+        "max": 7.360002200584859,
+        "mean": 7.269500201800838,
+        "stdev": 0.1300049916608259,
+        "q1": 7.229997208924033,
+        "q3": 7.360002200584859
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:ninja_log:ninja-log",
+            "pass": true,
+            "detail": "sha256=9cff3981c48f25ff8c015a87b9a49a7c12b81995f7f9d910995f7d6177fe9370 bytes=786 total_units=4 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.12.13",
+        "iqrUs": 0.1300049916608259,
+        "identity": {
+          "sha256": "9cff3981c48f25ff8c015a87b9a49a7c12b81995f7f9d910995f7d6177fe9370",
+          "bytes": 786,
+          "total_units": 4,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.12.cargo_diag.cargo-diag",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.12",
+      "scenario": "digest-parse:cargo_diag:cargo-diag",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.12>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 21.879997802898288,
+        "min": 21.712496163672768,
+        "max": 22.549997083842754,
+        "mean": 21.879997802898288,
+        "stdev": 0.8375009201699868,
+        "q1": 21.712496163672768,
+        "q3": 22.549997083842754
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:cargo_diag:cargo-diag",
+            "pass": true,
+            "detail": "sha256=f148c41b863242d73177bb65af686a2b2161ca13329330e43c6456578fb412fb bytes=486 total_units=2 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.12.13",
+        "iqrUs": 0.8375009201699868,
+        "identity": {
+          "sha256": "f148c41b863242d73177bb65af686a2b2161ca13329330e43c6456578fb412fb",
+          "bytes": 486,
+          "total_units": 2,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.12.gha_log.gha-log",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.12",
+      "scenario": "digest-parse:gha_log:gha-log",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.12>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 396.3075032515917,
+        "min": 394.3069987144554,
+        "max": 397.92525058146566,
+        "mean": 396.3075032515917,
+        "stdev": 3.618251867010258,
+        "q1": 394.3069987144554,
+        "q3": 397.92525058146566
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:gha_log:gha-log",
+            "pass": true,
+            "detail": "sha256=a45ed5fd1ed1d63016824d9f3153b9e68ffbbcf121acbb7a3843545ab68e9012 bytes=476 total_units=1 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.12.13",
+        "iqrUs": 3.618251867010258,
+        "identity": {
+          "sha256": "a45ed5fd1ed1d63016824d9f3153b9e68ffbbcf121acbb7a3843545ab68e9012",
+          "bytes": 476,
+          "total_units": 1,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.12.git_numstat.git-numstat",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.12",
+      "scenario": "digest-parse:git_numstat:git-numstat",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.12>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 53.80449874792248,
+        "min": 53.51224899641238,
+        "max": 54.105001254356466,
+        "mean": 53.80449874792248,
+        "stdev": 0.5927522579440847,
+        "q1": 53.51224899641238,
+        "q3": 54.105001254356466
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:git_numstat:git-numstat",
+            "pass": true,
+            "detail": "sha256=4c899cdf6d10931d114a9dbe8fe1e78707bbde4cb2d0507d55c89023253a3767 bytes=1046 total_units=46 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.12.13",
+        "iqrUs": 0.5927522579440847,
+        "identity": {
+          "sha256": "4c899cdf6d10931d114a9dbe8fe1e78707bbde4cb2d0507d55c89023253a3767",
+          "bytes": 1046,
+          "total_units": 46,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.12.criterion.criterion",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.12",
+      "scenario": "digest-parse:criterion:criterion",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.12>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 111.89899669261649,
+        "min": 110.94499859609641,
+        "max": 113.87475205992814,
+        "mean": 111.89899669261649,
+        "stdev": 2.92975346383173,
+        "q1": 110.94499859609641,
+        "q3": 113.87475205992814
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:criterion:criterion",
+            "pass": true,
+            "detail": "sha256=b6b45fc80bef7f343af82ffc6bc7e1ef71df0ac76872f7b98bdfb777210e7f94 bytes=808 total_units=2 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.12.13",
+        "iqrUs": 2.92975346383173,
+        "identity": {
+          "sha256": "b6b45fc80bef7f343af82ffc6bc7e1ef71df0ac76872f7b98bdfb777210e7f94",
+          "bytes": 808,
+          "total_units": 2,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.12.interpreter-startup",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.12",
+      "scenario": "interpreter-startup",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.12>/bin/python",
+        "-c",
+        "import perfdigest.server.app"
+      ],
+      "method": "subprocess import timer: median of 5 repetitions importing perfdigest.server.app",
+      "warmup": 0,
+      "wall": {
+        "unit": "s",
+        "n": 5,
+        "median": 0.2800152259951574,
+        "min": 0.2800152259951574,
+        "max": 0.2800152259951574,
+        "mean": 0.2800152259951574,
+        "stdev": 0.0,
+        "q1": 0.2800152259951574,
+        "q3": 0.2800152259951574
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "import:perfdigest.server.app",
+            "pass": true,
+            "detail": "python_version=3.12.13 median_startup_s=0.2800152259951574"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.12.13",
+        "loadavg_1_5_15": [
+          0.84716796875,
+          39.677734375,
+          51.1005859375
+        ]
+      }
+    },
+    {
+      "id": "engine.cpython-3.13.linux_perf.perf-stat-json",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.13",
+      "scenario": "digest-parse:linux_perf:perf-stat-json",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.13>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 15.034998796181753,
+        "min": 14.8799972521374,
+        "max": 15.209250705083832,
+        "mean": 15.034998796181753,
+        "stdev": 0.32925345294643193,
+        "q1": 14.8799972521374,
+        "q3": 15.209250705083832
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:linux_perf:perf-stat-json",
+            "pass": true,
+            "detail": "sha256=1384736cc101176f5802b1c5d4f7e20f26106ddc1aff1ac2098f98d1378660a3 bytes=599 total_units=1 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.13.12",
+        "iqrUs": 0.32925345294643193,
+        "identity": {
+          "sha256": "1384736cc101176f5802b1c5d4f7e20f26106ddc1aff1ac2098f98d1378660a3",
+          "bytes": 599,
+          "total_units": 1,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.13.linux_perf.perf-report",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.13",
+      "scenario": "digest-parse:linux_perf:perf-report",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.13>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 7.2500006353948265,
+        "min": 7.189999450929463,
+        "max": 7.317499694181606,
+        "mean": 7.2500006353948265,
+        "stdev": 0.12750024325214326,
+        "q1": 7.189999450929463,
+        "q3": 7.317499694181606
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:linux_perf:perf-report",
+            "pass": true,
+            "detail": "sha256=d4a959e3f66def2fd67bc380d64c507aebacd0aaa037c59e9862c903d47943af bytes=1533 total_units=3 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.13.12",
+        "iqrUs": 0.12750024325214326,
+        "identity": {
+          "sha256": "d4a959e3f66def2fd67bc380d64c507aebacd0aaa037c59e9862c903d47943af",
+          "bytes": 1533,
+          "total_units": 3,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.13.ptxas.ptxas-verbose",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.13",
+      "scenario": "digest-parse:ptxas:ptxas-verbose",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.13>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 24.36949944240041,
+        "min": 24.259999918285757,
+        "max": 24.47750375722535,
+        "mean": 24.36949944240041,
+        "stdev": 0.21750383893959224,
+        "q1": 24.259999918285757,
+        "q3": 24.47750375722535
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:ptxas:ptxas-verbose",
+            "pass": true,
+            "detail": "sha256=3bdf97458617ae08272a6cc925796459c414e766c2e69ad56457200f04caa636 bytes=1421 total_units=4 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.13.12",
+        "iqrUs": 0.21750383893959224,
+        "identity": {
+          "sha256": "3bdf97458617ae08272a6cc925796459c414e766c2e69ad56457200f04caa636",
+          "bytes": 1421,
+          "total_units": 4,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.13.chrome_trace.torch-trace",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.13",
+      "scenario": "digest-parse:chrome_trace:torch-trace",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.13>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 129.44399713887833,
+        "min": 128.91649748780765,
+        "max": 130.44399565842468,
+        "mean": 129.44399713887833,
+        "stdev": 1.5274981706170365,
+        "q1": 128.91649748780765,
+        "q3": 130.44399565842468
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:chrome_trace:torch-trace",
+            "pass": true,
+            "detail": "sha256=4e5754d2867ced9323738a5aeebf8a1e91426f99d38dbe1445fab71977f17e09 bytes=1192 total_units=15 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.13.12",
+        "iqrUs": 1.5274981706170365,
+        "identity": {
+          "sha256": "4e5754d2867ced9323738a5aeebf8a1e91426f99d38dbe1445fab71977f17e09",
+          "bytes": 1192,
+          "total_units": 15,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.13.clang_time_trace.clang-time-trace",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.13",
+      "scenario": "digest-parse:clang_time_trace:clang-time-trace",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.13>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 300.1275035785511,
+        "min": 298.56299988750834,
+        "max": 301.78525048540905,
+        "mean": 300.1275035785511,
+        "stdev": 3.222250597900711,
+        "q1": 298.56299988750834,
+        "q3": 301.78525048540905
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:clang_time_trace:clang-time-trace",
+            "pass": true,
+            "detail": "sha256=c9e5b47e9f21464871849db694ce9a97f599509e661e632ca093c31ccd4baf89 bytes=1205 total_units=60 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.13.12",
+        "iqrUs": 3.222250597900711,
+        "identity": {
+          "sha256": "c9e5b47e9f21464871849db694ce9a97f599509e661e632ca093c31ccd4baf89",
+          "bytes": 1205,
+          "total_units": 60,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.13.cmake_profile.cmake-profile",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.13",
+      "scenario": "digest-parse:cmake_profile:cmake-profile",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.13>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 1352.5709982786793,
+        "min": 1344.0284983516904,
+        "max": 1387.1699993615039,
+        "mean": 1352.5709982786793,
+        "stdev": 43.14150100981351,
+        "q1": 1344.0284983516904,
+        "q3": 1387.1699993615039
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:cmake_profile:cmake-profile",
+            "pass": true,
+            "detail": "sha256=ad8d520a3f67243bf27e97575508ae99488b410968febb5d74a04f914e895254 bytes=1122 total_units=50 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.13.12",
+        "iqrUs": 43.14150100981351,
+        "identity": {
+          "sha256": "ad8d520a3f67243bf27e97575508ae99488b410968febb5d74a04f914e895254",
+          "bytes": 1122,
+          "total_units": 50,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.13.ninja_log.ninja-log",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.13",
+      "scenario": "digest-parse:ninja_log:ninja-log",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.13>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 7.6599972089752555,
+        "min": 7.570000889245421,
+        "max": 7.797501893946901,
+        "mean": 7.6599972089752555,
+        "stdev": 0.22750100470148027,
+        "q1": 7.570000889245421,
+        "q3": 7.797501893946901
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:ninja_log:ninja-log",
+            "pass": true,
+            "detail": "sha256=9cff3981c48f25ff8c015a87b9a49a7c12b81995f7f9d910995f7d6177fe9370 bytes=786 total_units=4 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.13.12",
+        "iqrUs": 0.22750100470148027,
+        "identity": {
+          "sha256": "9cff3981c48f25ff8c015a87b9a49a7c12b81995f7f9d910995f7d6177fe9370",
+          "bytes": 786,
+          "total_units": 4,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.13.cargo_diag.cargo-diag",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.13",
+      "scenario": "digest-parse:cargo_diag:cargo-diag",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.13>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 21.874500816920772,
+        "min": 21.759749870398082,
+        "max": 22.137503037811257,
+        "mean": 21.874500816920772,
+        "stdev": 0.3777531674131751,
+        "q1": 21.759749870398082,
+        "q3": 22.137503037811257
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:cargo_diag:cargo-diag",
+            "pass": true,
+            "detail": "sha256=f148c41b863242d73177bb65af686a2b2161ca13329330e43c6456578fb412fb bytes=486 total_units=2 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.13.12",
+        "iqrUs": 0.3777531674131751,
+        "identity": {
+          "sha256": "f148c41b863242d73177bb65af686a2b2161ca13329330e43c6456578fb412fb",
+          "bytes": 486,
+          "total_units": 2,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.13.gha_log.gha-log",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.13",
+      "scenario": "digest-parse:gha_log:gha-log",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.13>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 392.16750155901536,
+        "min": 390.0145020452328,
+        "max": 396.36949804844335,
+        "mean": 392.16750155901536,
+        "stdev": 6.354996003210545,
+        "q1": 390.0145020452328,
+        "q3": 396.36949804844335
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:gha_log:gha-log",
+            "pass": true,
+            "detail": "sha256=a45ed5fd1ed1d63016824d9f3153b9e68ffbbcf121acbb7a3843545ab68e9012 bytes=476 total_units=1 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.13.12",
+        "iqrUs": 6.354996003210545,
+        "identity": {
+          "sha256": "a45ed5fd1ed1d63016824d9f3153b9e68ffbbcf121acbb7a3843545ab68e9012",
+          "bytes": 476,
+          "total_units": 1,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.13.git_numstat.git-numstat",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.13",
+      "scenario": "digest-parse:git_numstat:git-numstat",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.13>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 51.649501983774826,
+        "min": 51.43400085216854,
+        "max": 51.93000106373802,
+        "mean": 51.649501983774826,
+        "stdev": 0.4960002115694806,
+        "q1": 51.43400085216854,
+        "q3": 51.93000106373802
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:git_numstat:git-numstat",
+            "pass": true,
+            "detail": "sha256=4c899cdf6d10931d114a9dbe8fe1e78707bbde4cb2d0507d55c89023253a3767 bytes=1046 total_units=46 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.13.12",
+        "iqrUs": 0.4960002115694806,
+        "identity": {
+          "sha256": "4c899cdf6d10931d114a9dbe8fe1e78707bbde4cb2d0507d55c89023253a3767",
+          "bytes": 1046,
+          "total_units": 46,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.13.criterion.criterion",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.13",
+      "scenario": "digest-parse:criterion:criterion",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.13>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 69.58000085433014,
+        "min": 68.10475497331936,
+        "max": 71.45900053728838,
+        "mean": 69.58000085433014,
+        "stdev": 3.354245563969016,
+        "q1": 68.10475497331936,
+        "q3": 71.45900053728838
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:criterion:criterion",
+            "pass": true,
+            "detail": "sha256=b6b45fc80bef7f343af82ffc6bc7e1ef71df0ac76872f7b98bdfb777210e7f94 bytes=808 total_units=2 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.13.12",
+        "iqrUs": 3.354245563969016,
+        "identity": {
+          "sha256": "b6b45fc80bef7f343af82ffc6bc7e1ef71df0ac76872f7b98bdfb777210e7f94",
+          "bytes": 808,
+          "total_units": 2,
+          "matchesGilBaseline": true
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.13.interpreter-startup",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.13",
+      "scenario": "interpreter-startup",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.13>/bin/python",
+        "-c",
+        "import perfdigest.server.app"
+      ],
+      "method": "subprocess import timer: median of 5 repetitions importing perfdigest.server.app",
+      "warmup": 0,
+      "wall": {
+        "unit": "s",
+        "n": 5,
+        "median": 0.2773810020007659,
+        "min": 0.2773810020007659,
+        "max": 0.2773810020007659,
+        "mean": 0.2773810020007659,
+        "stdev": 0.0,
+        "q1": 0.2773810020007659,
+        "q3": 0.2773810020007659
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "import:perfdigest.server.app",
+            "pass": true,
+            "detail": "python_version=3.13.12 median_startup_s=0.2773810020007659"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.13.12",
+        "loadavg_1_5_15": [
+          0.84716796875,
+          39.677734375,
+          51.1005859375
+        ]
+      }
+    },
+    {
+      "id": "engine.cpython-3.14.linux_perf.perf-stat-json",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14",
+      "scenario": "digest-parse:linux_perf:perf-stat-json",
+      "baseline": true,
+      "status": "measured",
+      "command": [
+        "<venv-3.14>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 14.869998267386109,
+        "min": 14.790000932407565,
+        "max": 15.099998563528061,
+        "mean": 14.869998267386109,
+        "stdev": 0.3099976311204955,
+        "q1": 14.790000932407565,
+        "q3": 15.099998563528061
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:linux_perf:perf-stat-json",
+            "pass": true,
+            "detail": "sha256=1384736cc101176f5802b1c5d4f7e20f26106ddc1aff1ac2098f98d1378660a3 bytes=599 total_units=1 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "iqrUs": 0.3099976311204955,
+        "identity": {
+          "sha256": "1384736cc101176f5802b1c5d4f7e20f26106ddc1aff1ac2098f98d1378660a3",
+          "bytes": 599,
+          "total_units": 1,
+          "matchesGilBaseline": true
+        },
+        "concurrency": {
+          "gil_enabled": true,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 34194.32651918157,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.011697847003233619
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 18624.096489945474,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.002684693994524423
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 28558.271365725937,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.014006450001033954
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14.linux_perf.perf-report",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14",
+      "scenario": "digest-parse:linux_perf:perf-report",
+      "baseline": true,
+      "status": "measured",
+      "command": [
+        "<venv-3.14>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 7.009999535512179,
+        "min": 6.972502887947485,
+        "max": 7.067497790558264,
+        "mean": 7.009999535512179,
+        "stdev": 0.09499490261077881,
+        "q1": 6.972502887947485,
+        "q3": 7.067497790558264
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:linux_perf:perf-report",
+            "pass": true,
+            "detail": "sha256=d4a959e3f66def2fd67bc380d64c507aebacd0aaa037c59e9862c903d47943af bytes=1533 total_units=3 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "iqrUs": 0.09499490261077881,
+        "identity": {
+          "sha256": "d4a959e3f66def2fd67bc380d64c507aebacd0aaa037c59e9862c903d47943af",
+          "bytes": 1533,
+          "total_units": 3,
+          "matchesGilBaseline": true
+        },
+        "concurrency": {
+          "gil_enabled": true,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 34194.32651918157,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.011697847003233619
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 18624.096489945474,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.002684693994524423
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 28558.271365725937,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.014006450001033954
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14.ptxas.ptxas-verbose",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14",
+      "scenario": "digest-parse:ptxas:ptxas-verbose",
+      "baseline": true,
+      "status": "measured",
+      "command": [
+        "<venv-3.14>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 25.419500161660835,
+        "min": 25.25899799366016,
+        "max": 25.63250200182665,
+        "mean": 25.419500161660835,
+        "stdev": 0.373504008166492,
+        "q1": 25.25899799366016,
+        "q3": 25.63250200182665
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:ptxas:ptxas-verbose",
+            "pass": true,
+            "detail": "sha256=3bdf97458617ae08272a6cc925796459c414e766c2e69ad56457200f04caa636 bytes=1421 total_units=4 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "iqrUs": 0.373504008166492,
+        "identity": {
+          "sha256": "3bdf97458617ae08272a6cc925796459c414e766c2e69ad56457200f04caa636",
+          "bytes": 1421,
+          "total_units": 4,
+          "matchesGilBaseline": true
+        },
+        "concurrency": {
+          "gil_enabled": true,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 34194.32651918157,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.011697847003233619
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 18624.096489945474,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.002684693994524423
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 28558.271365725937,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.014006450001033954
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14.chrome_trace.torch-trace",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14",
+      "scenario": "digest-parse:chrome_trace:torch-trace",
+      "baseline": true,
+      "status": "measured",
+      "command": [
+        "<venv-3.14>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 133.7944995611906,
+        "min": 133.27475244295783,
+        "max": 134.86149873642717,
+        "mean": 133.7944995611906,
+        "stdev": 1.5867462934693322,
+        "q1": 133.27475244295783,
+        "q3": 134.86149873642717
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:chrome_trace:torch-trace",
+            "pass": true,
+            "detail": "sha256=4e5754d2867ced9323738a5aeebf8a1e91426f99d38dbe1445fab71977f17e09 bytes=1192 total_units=15 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "iqrUs": 1.5867462934693322,
+        "identity": {
+          "sha256": "4e5754d2867ced9323738a5aeebf8a1e91426f99d38dbe1445fab71977f17e09",
+          "bytes": 1192,
+          "total_units": 15,
+          "matchesGilBaseline": true
+        },
+        "concurrency": {
+          "gil_enabled": true,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 34194.32651918157,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.011697847003233619
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 18624.096489945474,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.002684693994524423
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 28558.271365725937,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.014006450001033954
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14.clang_time_trace.clang-time-trace",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14",
+      "scenario": "digest-parse:clang_time_trace:clang-time-trace",
+      "baseline": true,
+      "status": "measured",
+      "command": [
+        "<venv-3.14>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 324.5879961468745,
+        "min": 322.9529993404867,
+        "max": 325.8005017414689,
+        "mean": 324.5879961468745,
+        "stdev": 2.8475024009821936,
+        "q1": 322.9529993404867,
+        "q3": 325.8005017414689
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:clang_time_trace:clang-time-trace",
+            "pass": true,
+            "detail": "sha256=c9e5b47e9f21464871849db694ce9a97f599509e661e632ca093c31ccd4baf89 bytes=1205 total_units=60 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "iqrUs": 2.8475024009821936,
+        "identity": {
+          "sha256": "c9e5b47e9f21464871849db694ce9a97f599509e661e632ca093c31ccd4baf89",
+          "bytes": 1205,
+          "total_units": 60,
+          "matchesGilBaseline": true
+        },
+        "concurrency": {
+          "gil_enabled": true,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 34194.32651918157,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.011697847003233619
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 18624.096489945474,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.002684693994524423
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 28558.271365725937,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.014006450001033954
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14.cmake_profile.cmake-profile",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14",
+      "scenario": "digest-parse:cmake_profile:cmake-profile",
+      "baseline": true,
+      "status": "measured",
+      "command": [
+        "<venv-3.14>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 1415.7050027279183,
+        "min": 1404.9925048311707,
+        "max": 1448.7592525256332,
+        "mean": 1415.7050027279183,
+        "stdev": 43.76674769446254,
+        "q1": 1404.9925048311707,
+        "q3": 1448.7592525256332
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:cmake_profile:cmake-profile",
+            "pass": true,
+            "detail": "sha256=ad8d520a3f67243bf27e97575508ae99488b410968febb5d74a04f914e895254 bytes=1122 total_units=50 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "iqrUs": 43.76674769446254,
+        "identity": {
+          "sha256": "ad8d520a3f67243bf27e97575508ae99488b410968febb5d74a04f914e895254",
+          "bytes": 1122,
+          "total_units": 50,
+          "matchesGilBaseline": true
+        },
+        "concurrency": {
+          "gil_enabled": true,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 34194.32651918157,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.011697847003233619
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 18624.096489945474,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.002684693994524423
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 28558.271365725937,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.014006450001033954
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14.ninja_log.ninja-log",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14",
+      "scenario": "digest-parse:ninja_log:ninja-log",
+      "baseline": true,
+      "status": "measured",
+      "command": [
+        "<venv-3.14>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 7.149996235966682,
+        "min": 7.080001523718238,
+        "max": 7.262502549565397,
+        "mean": 7.149996235966682,
+        "stdev": 0.18250102584715933,
+        "q1": 7.080001523718238,
+        "q3": 7.262502549565397
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:ninja_log:ninja-log",
+            "pass": true,
+            "detail": "sha256=9cff3981c48f25ff8c015a87b9a49a7c12b81995f7f9d910995f7d6177fe9370 bytes=786 total_units=4 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "iqrUs": 0.18250102584715933,
+        "identity": {
+          "sha256": "9cff3981c48f25ff8c015a87b9a49a7c12b81995f7f9d910995f7d6177fe9370",
+          "bytes": 786,
+          "total_units": 4,
+          "matchesGilBaseline": true
+        },
+        "concurrency": {
+          "gil_enabled": true,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 34194.32651918157,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.011697847003233619
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 18624.096489945474,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.002684693994524423
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 28558.271365725937,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.014006450001033954
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14.cargo_diag.cargo-diag",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14",
+      "scenario": "digest-parse:cargo_diag:cargo-diag",
+      "baseline": true,
+      "status": "measured",
+      "command": [
+        "<venv-3.14>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 21.854997612535954,
+        "min": 21.779998860438354,
+        "max": 22.095000531408004,
+        "mean": 21.854997612535954,
+        "stdev": 0.31500167096965015,
+        "q1": 21.779998860438354,
+        "q3": 22.095000531408004
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:cargo_diag:cargo-diag",
+            "pass": true,
+            "detail": "sha256=f148c41b863242d73177bb65af686a2b2161ca13329330e43c6456578fb412fb bytes=486 total_units=2 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "iqrUs": 0.31500167096965015,
+        "identity": {
+          "sha256": "f148c41b863242d73177bb65af686a2b2161ca13329330e43c6456578fb412fb",
+          "bytes": 486,
+          "total_units": 2,
+          "matchesGilBaseline": true
+        },
+        "concurrency": {
+          "gil_enabled": true,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 34194.32651918157,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.011697847003233619
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 18624.096489945474,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.002684693994524423
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 28558.271365725937,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.014006450001033954
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14.gha_log.gha-log",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14",
+      "scenario": "digest-parse:gha_log:gha-log",
+      "baseline": true,
+      "status": "measured",
+      "command": [
+        "<venv-3.14>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 410.99700320046395,
+        "min": 409.6002467122162,
+        "max": 412.634502936271,
+        "mean": 410.99700320046395,
+        "stdev": 3.034256224054843,
+        "q1": 409.6002467122162,
+        "q3": 412.634502936271
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:gha_log:gha-log",
+            "pass": true,
+            "detail": "sha256=a45ed5fd1ed1d63016824d9f3153b9e68ffbbcf121acbb7a3843545ab68e9012 bytes=476 total_units=1 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "iqrUs": 3.034256224054843,
+        "identity": {
+          "sha256": "a45ed5fd1ed1d63016824d9f3153b9e68ffbbcf121acbb7a3843545ab68e9012",
+          "bytes": 476,
+          "total_units": 1,
+          "matchesGilBaseline": true
+        },
+        "concurrency": {
+          "gil_enabled": true,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 34194.32651918157,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.011697847003233619
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 18624.096489945474,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.002684693994524423
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 28558.271365725937,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.014006450001033954
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14.git_numstat.git-numstat",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14",
+      "scenario": "digest-parse:git_numstat:git-numstat",
+      "baseline": true,
+      "status": "measured",
+      "command": [
+        "<venv-3.14>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 54.21899913926609,
+        "min": 53.87475357565563,
+        "max": 54.56724829855375,
+        "mean": 54.21899913926609,
+        "stdev": 0.6924947228981182,
+        "q1": 53.87475357565563,
+        "q3": 54.56724829855375
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:git_numstat:git-numstat",
+            "pass": true,
+            "detail": "sha256=4c899cdf6d10931d114a9dbe8fe1e78707bbde4cb2d0507d55c89023253a3767 bytes=1046 total_units=46 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "iqrUs": 0.6924947228981182,
+        "identity": {
+          "sha256": "4c899cdf6d10931d114a9dbe8fe1e78707bbde4cb2d0507d55c89023253a3767",
+          "bytes": 1046,
+          "total_units": 46,
+          "matchesGilBaseline": true
+        },
+        "concurrency": {
+          "gil_enabled": true,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 34194.32651918157,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.011697847003233619
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 18624.096489945474,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.002684693994524423
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 28558.271365725937,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.014006450001033954
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14.criterion.criterion",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14",
+      "scenario": "digest-parse:criterion:criterion",
+      "baseline": true,
+      "status": "measured",
+      "command": [
+        "<venv-3.14>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 66.739503381541,
+        "min": 66.16924838453997,
+        "max": 68.46424912509974,
+        "mean": 66.739503381541,
+        "stdev": 2.2950007405597717,
+        "q1": 66.16924838453997,
+        "q3": 68.46424912509974
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:criterion:criterion",
+            "pass": true,
+            "detail": "sha256=b6b45fc80bef7f343af82ffc6bc7e1ef71df0ac76872f7b98bdfb777210e7f94 bytes=808 total_units=2 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "iqrUs": 2.2950007405597717,
+        "identity": {
+          "sha256": "b6b45fc80bef7f343af82ffc6bc7e1ef71df0ac76872f7b98bdfb777210e7f94",
+          "bytes": 808,
+          "total_units": 2,
+          "matchesGilBaseline": true
+        },
+        "concurrency": {
+          "gil_enabled": true,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 34194.32651918157,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.011697847003233619
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 18624.096489945474,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.002684693994524423
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 28558.271365725937,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.014006450001033954
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14.interpreter-startup",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14",
+      "scenario": "interpreter-startup",
+      "baseline": true,
+      "status": "measured",
+      "command": [
+        "<venv-3.14>/bin/python",
+        "-c",
+        "import perfdigest.server.app"
+      ],
+      "method": "subprocess import timer: median of 5 repetitions importing perfdigest.server.app",
+      "warmup": 0,
+      "wall": {
+        "unit": "s",
+        "n": 5,
+        "median": 0.31656293899868615,
+        "min": 0.31656293899868615,
+        "max": 0.31656293899868615,
+        "mean": 0.31656293899868615,
+        "stdev": 0.0,
+        "q1": 0.31656293899868615,
+        "q3": 0.31656293899868615
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "import:perfdigest.server.app",
+            "pass": true,
+            "detail": "python_version=3.14.3 median_startup_s=0.31656293899868615"
+          },
+          {
+            "name": "concurrency:same_path_1thread",
+            "pass": true,
+            "detail": "n_threads=1 total_calls=50 wall_time_s=0.002684693994524423 throughput_calls_per_s=18624.096489945474"
+          },
+          {
+            "name": "concurrency:same_path_nthreads",
+            "pass": true,
+            "detail": "n_threads=8 total_calls=400 wall_time_s=0.014006450001033954 throughput_calls_per_s=28558.271365725937"
+          },
+          {
+            "name": "concurrency:mixed_paths_nthreads",
+            "pass": true,
+            "detail": "n_threads=8 total_calls=400 wall_time_s=0.011697847003233619 throughput_calls_per_s=34194.32651918157"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "loadavg_1_5_15": [
+          0.84716796875,
+          39.677734375,
+          51.1005859375
+        ],
+        "concurrency": {
+          "gil_enabled": true,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 34194.32651918157,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.011697847003233619
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 18624.096489945474,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.002684693994524423
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 28558.271365725937,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.014006450001033954
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14t.linux_perf.perf-stat-json",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14t",
+      "scenario": "digest-parse:linux_perf:perf-stat-json",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.14t>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 15.559999155811965,
+        "min": 15.42999962111935,
+        "max": 15.939996956149116,
+        "mean": 15.559999155811965,
+        "stdev": 0.509997335029766,
+        "q1": 15.42999962111935,
+        "q3": 15.939996956149116
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:linux_perf:perf-stat-json",
+            "pass": true,
+            "detail": "sha256=1384736cc101176f5802b1c5d4f7e20f26106ddc1aff1ac2098f98d1378660a3 bytes=599 total_units=1 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "iqrUs": 0.509997335029766,
+        "identity": {
+          "sha256": "1384736cc101176f5802b1c5d4f7e20f26106ddc1aff1ac2098f98d1378660a3",
+          "bytes": 599,
+          "total_units": 1,
+          "matchesGilBaseline": true
+        },
+        "concurrency": {
+          "gil_enabled": false,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 99306.96159132033,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.004027914998005144
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 14482.02852683777,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.0034525549999671057
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 67458.07349760317,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.00592960900394246
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14t.linux_perf.perf-report",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14t",
+      "scenario": "digest-parse:linux_perf:perf-report",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.14t>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 7.444999937433749,
+        "min": 7.371501851594076,
+        "max": 7.534996257163584,
+        "mean": 7.444999937433749,
+        "stdev": 0.16349440556950867,
+        "q1": 7.371501851594076,
+        "q3": 7.534996257163584
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:linux_perf:perf-report",
+            "pass": true,
+            "detail": "sha256=d4a959e3f66def2fd67bc380d64c507aebacd0aaa037c59e9862c903d47943af bytes=1533 total_units=3 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "iqrUs": 0.16349440556950867,
+        "identity": {
+          "sha256": "d4a959e3f66def2fd67bc380d64c507aebacd0aaa037c59e9862c903d47943af",
+          "bytes": 1533,
+          "total_units": 3,
+          "matchesGilBaseline": true
+        },
+        "concurrency": {
+          "gil_enabled": false,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 99306.96159132033,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.004027914998005144
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 14482.02852683777,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.0034525549999671057
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 67458.07349760317,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.00592960900394246
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14t.ptxas.ptxas-verbose",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14t",
+      "scenario": "digest-parse:ptxas:ptxas-verbose",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.14t>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 26.289999368600547,
+        "min": 26.055002308567055,
+        "max": 26.481753593543544,
+        "mean": 26.289999368600547,
+        "stdev": 0.42675128497648984,
+        "q1": 26.055002308567055,
+        "q3": 26.481753593543544
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:ptxas:ptxas-verbose",
+            "pass": true,
+            "detail": "sha256=3bdf97458617ae08272a6cc925796459c414e766c2e69ad56457200f04caa636 bytes=1421 total_units=4 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "iqrUs": 0.42675128497648984,
+        "identity": {
+          "sha256": "3bdf97458617ae08272a6cc925796459c414e766c2e69ad56457200f04caa636",
+          "bytes": 1421,
+          "total_units": 4,
+          "matchesGilBaseline": true
+        },
+        "concurrency": {
+          "gil_enabled": false,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 99306.96159132033,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.004027914998005144
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 14482.02852683777,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.0034525549999671057
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 67458.07349760317,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.00592960900394246
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14t.chrome_trace.torch-trace",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14t",
+      "scenario": "digest-parse:chrome_trace:torch-trace",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.14t>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 142.74400018621236,
+        "min": 140.9740016242722,
+        "max": 145.05649778584484,
+        "mean": 142.74400018621236,
+        "stdev": 4.082496161572635,
+        "q1": 140.9740016242722,
+        "q3": 145.05649778584484
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:chrome_trace:torch-trace",
+            "pass": true,
+            "detail": "sha256=4e5754d2867ced9323738a5aeebf8a1e91426f99d38dbe1445fab71977f17e09 bytes=1192 total_units=15 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "iqrUs": 4.082496161572635,
+        "identity": {
+          "sha256": "4e5754d2867ced9323738a5aeebf8a1e91426f99d38dbe1445fab71977f17e09",
+          "bytes": 1192,
+          "total_units": 15,
+          "matchesGilBaseline": true
+        },
+        "concurrency": {
+          "gil_enabled": false,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 99306.96159132033,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.004027914998005144
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 14482.02852683777,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.0034525549999671057
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 67458.07349760317,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.00592960900394246
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14t.clang_time_trace.clang-time-trace",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14t",
+      "scenario": "digest-parse:clang_time_trace:clang-time-trace",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.14t>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 333.4325010655448,
+        "min": 331.41525091195945,
+        "max": 335.23800084367394,
+        "mean": 333.4325010655448,
+        "stdev": 3.8227499317144975,
+        "q1": 331.41525091195945,
+        "q3": 335.23800084367394
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:clang_time_trace:clang-time-trace",
+            "pass": true,
+            "detail": "sha256=c9e5b47e9f21464871849db694ce9a97f599509e661e632ca093c31ccd4baf89 bytes=1205 total_units=60 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "iqrUs": 3.8227499317144975,
+        "identity": {
+          "sha256": "c9e5b47e9f21464871849db694ce9a97f599509e661e632ca093c31ccd4baf89",
+          "bytes": 1205,
+          "total_units": 60,
+          "matchesGilBaseline": true
+        },
+        "concurrency": {
+          "gil_enabled": false,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 99306.96159132033,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.004027914998005144
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 14482.02852683777,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.0034525549999671057
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 67458.07349760317,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.00592960900394246
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14t.cmake_profile.cmake-profile",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14t",
+      "scenario": "digest-parse:cmake_profile:cmake-profile",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.14t>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 1489.7089968144428,
+        "min": 1483.964249928249,
+        "max": 1499.6875015640398,
+        "mean": 1489.7089968144428,
+        "stdev": 15.723251635790803,
+        "q1": 1483.964249928249,
+        "q3": 1499.6875015640398
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:cmake_profile:cmake-profile",
+            "pass": true,
+            "detail": "sha256=ad8d520a3f67243bf27e97575508ae99488b410968febb5d74a04f914e895254 bytes=1122 total_units=50 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "iqrUs": 15.723251635790803,
+        "identity": {
+          "sha256": "ad8d520a3f67243bf27e97575508ae99488b410968febb5d74a04f914e895254",
+          "bytes": 1122,
+          "total_units": 50,
+          "matchesGilBaseline": true
+        },
+        "concurrency": {
+          "gil_enabled": false,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 99306.96159132033,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.004027914998005144
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 14482.02852683777,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.0034525549999671057
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 67458.07349760317,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.00592960900394246
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14t.ninja_log.ninja-log",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14t",
+      "scenario": "digest-parse:ninja_log:ninja-log",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.14t>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 8.079998224275187,
+        "min": 8.02224712970201,
+        "max": 8.237500878749415,
+        "mean": 8.079998224275187,
+        "stdev": 0.21525374904740602,
+        "q1": 8.02224712970201,
+        "q3": 8.237500878749415
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:ninja_log:ninja-log",
+            "pass": true,
+            "detail": "sha256=9cff3981c48f25ff8c015a87b9a49a7c12b81995f7f9d910995f7d6177fe9370 bytes=786 total_units=4 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "iqrUs": 0.21525374904740602,
+        "identity": {
+          "sha256": "9cff3981c48f25ff8c015a87b9a49a7c12b81995f7f9d910995f7d6177fe9370",
+          "bytes": 786,
+          "total_units": 4,
+          "matchesGilBaseline": true
+        },
+        "concurrency": {
+          "gil_enabled": false,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 99306.96159132033,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.004027914998005144
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 14482.02852683777,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.0034525549999671057
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 67458.07349760317,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.00592960900394246
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14t.cargo_diag.cargo-diag",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14t",
+      "scenario": "digest-parse:cargo_diag:cargo-diag",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.14t>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 23.775002773618326,
+        "min": 23.594246158609167,
+        "max": 24.00749690423254,
+        "mean": 23.775002773618326,
+        "stdev": 0.4132507456233725,
+        "q1": 23.594246158609167,
+        "q3": 24.00749690423254
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:cargo_diag:cargo-diag",
+            "pass": true,
+            "detail": "sha256=f148c41b863242d73177bb65af686a2b2161ca13329330e43c6456578fb412fb bytes=486 total_units=2 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "iqrUs": 0.4132507456233725,
+        "identity": {
+          "sha256": "f148c41b863242d73177bb65af686a2b2161ca13329330e43c6456578fb412fb",
+          "bytes": 486,
+          "total_units": 2,
+          "matchesGilBaseline": true
+        },
+        "concurrency": {
+          "gil_enabled": false,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 99306.96159132033,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.004027914998005144
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 14482.02852683777,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.0034525549999671057
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 67458.07349760317,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.00592960900394246
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14t.gha_log.gha-log",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14t",
+      "scenario": "digest-parse:gha_log:gha-log",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.14t>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 419.72200051532127,
+        "min": 417.99475184234325,
+        "max": 421.0619990772102,
+        "mean": 419.72200051532127,
+        "stdev": 3.0672472348669544,
+        "q1": 417.99475184234325,
+        "q3": 421.0619990772102
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:gha_log:gha-log",
+            "pass": true,
+            "detail": "sha256=a45ed5fd1ed1d63016824d9f3153b9e68ffbbcf121acbb7a3843545ab68e9012 bytes=476 total_units=1 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "iqrUs": 3.0672472348669544,
+        "identity": {
+          "sha256": "a45ed5fd1ed1d63016824d9f3153b9e68ffbbcf121acbb7a3843545ab68e9012",
+          "bytes": 476,
+          "total_units": 1,
+          "matchesGilBaseline": true
+        },
+        "concurrency": {
+          "gil_enabled": false,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 99306.96159132033,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.004027914998005144
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 14482.02852683777,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.0034525549999671057
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 67458.07349760317,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.00592960900394246
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14t.git_numstat.git-numstat",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14t",
+      "scenario": "digest-parse:git_numstat:git-numstat",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.14t>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 61.469501815736294,
+        "min": 61.32225280452985,
+        "max": 61.76974966365378,
+        "mean": 61.469501815736294,
+        "stdev": 0.44749685912393034,
+        "q1": 61.32225280452985,
+        "q3": 61.76974966365378
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:git_numstat:git-numstat",
+            "pass": true,
+            "detail": "sha256=4c899cdf6d10931d114a9dbe8fe1e78707bbde4cb2d0507d55c89023253a3767 bytes=1046 total_units=46 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "iqrUs": 0.44749685912393034,
+        "identity": {
+          "sha256": "4c899cdf6d10931d114a9dbe8fe1e78707bbde4cb2d0507d55c89023253a3767",
+          "bytes": 1046,
+          "total_units": 46,
+          "matchesGilBaseline": true
+        },
+        "concurrency": {
+          "gil_enabled": false,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 99306.96159132033,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.004027914998005144
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 14482.02852683777,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.0034525549999671057
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 67458.07349760317,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.00592960900394246
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14t.criterion.criterion",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14t",
+      "scenario": "digest-parse:criterion:criterion",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.14t>/bin/python",
+        "workloads/interpreter_matrix.py",
+        "worker",
+        "--leg",
+        "latency",
+        "--repo",
+        "<perfdigest-mcp-repo>"
+      ],
+      "method": "time.perf_counter() around backend.load_units(fixture), report_store cache bypassed, 5 warmups + 50 iterations",
+      "warmup": 5,
+      "wall": {
+        "unit": "us",
+        "n": 50,
+        "median": 72.52900104504079,
+        "min": 71.54174818424508,
+        "max": 74.46725248883013,
+        "mean": 72.52900104504079,
+        "stdev": 2.925504304585047,
+        "q1": 71.54174818424508,
+        "q3": 74.46725248883013
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "digest-sha256:criterion:criterion",
+            "pass": true,
+            "detail": "sha256=b6b45fc80bef7f343af82ffc6bc7e1ef71df0ac76872f7b98bdfb777210e7f94 bytes=808 total_units=2 matches_3.14=True"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "iqrUs": 2.925504304585047,
+        "identity": {
+          "sha256": "b6b45fc80bef7f343af82ffc6bc7e1ef71df0ac76872f7b98bdfb777210e7f94",
+          "bytes": 808,
+          "total_units": 2,
+          "matchesGilBaseline": true
+        },
+        "concurrency": {
+          "gil_enabled": false,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 99306.96159132033,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.004027914998005144
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 14482.02852683777,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.0034525549999671057
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 67458.07349760317,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.00592960900394246
+          }
+        }
+      }
+    },
+    {
+      "id": "engine.cpython-3.14t.interpreter-startup",
+      "layer": "engine",
+      "group": "runtime",
+      "backend": "cpython-3.14t",
+      "scenario": "interpreter-startup",
+      "baseline": false,
+      "status": "measured",
+      "command": [
+        "<venv-3.14t>/bin/python",
+        "-c",
+        "import perfdigest.server.app"
+      ],
+      "method": "subprocess import timer: median of 5 repetitions importing perfdigest.server.app",
+      "warmup": 0,
+      "wall": {
+        "unit": "s",
+        "n": 5,
+        "median": 0.3754650880000554,
+        "min": 0.3754650880000554,
+        "max": 0.3754650880000554,
+        "mean": 0.3754650880000554,
+        "stdev": 0.0,
+        "q1": 0.3754650880000554,
+        "q3": 0.3754650880000554
+      },
+      "memoryCoverage": "none",
+      "parity": {
+        "status": "pass",
+        "checks": [
+          {
+            "name": "import:perfdigest.server.app",
+            "pass": true,
+            "detail": "python_version=3.14.3 median_startup_s=0.3754650880000554"
+          },
+          {
+            "name": "concurrency:same_path_1thread",
+            "pass": true,
+            "detail": "n_threads=1 total_calls=50 wall_time_s=0.0034525549999671057 throughput_calls_per_s=14482.02852683777"
+          },
+          {
+            "name": "concurrency:same_path_nthreads",
+            "pass": true,
+            "detail": "n_threads=8 total_calls=400 wall_time_s=0.00592960900394246 throughput_calls_per_s=67458.07349760317"
+          },
+          {
+            "name": "concurrency:mixed_paths_nthreads",
+            "pass": true,
+            "detail": "n_threads=8 total_calls=400 wall_time_s=0.004027914998005144 throughput_calls_per_s=99306.96159132033"
+          }
+        ]
+      },
+      "extra": {
+        "pythonVersion": "3.14.3",
+        "loadavg_1_5_15": [
+          0.84716796875,
+          39.677734375,
+          51.1005859375
+        ],
+        "concurrency": {
+          "gil_enabled": false,
+          "mixed_paths_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 99306.96159132033,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.004027914998005144
+          },
+          "python_version": "3.14.3",
+          "same_path_1thread": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 1,
+            "throughput_calls_per_s": 14482.02852683777,
+            "total_calls": 50,
+            "total_mismatches": 0,
+            "wall_time_s": 0.0034525549999671057
+          },
+          "same_path_nthreads": {
+            "correct": true,
+            "iters_per_thread": 50,
+            "n_threads": 8,
+            "throughput_calls_per_s": 67458.07349760317,
+            "total_calls": 400,
+            "total_mismatches": 0,
+            "wall_time_s": 0.00592960900394246
+          }
+        }
+      }
+    }
+  ],
+  "claims": [
+    "10 of 11 pure-Python backends produce byte-for-byte identical canonical digests across CPython 3.10, 3.11, 3.12, 3.13, 3.14, and 3.14t; the single 1-byte split on chrome_trace:torch-trace between 3.10/3.11 and 3.12+ comes from PEP 659 / CPython 3.12 Neumaier float summation in sum().",
+    "All 11 fixture reader parse latencies are sub-2ms across all six interpreters on amd-ryzen-ai-9-hx-370-x64 (cache bypassed, N=50 after 5 warmups).",
+    "Free-threaded CPython 3.14t preserves digest hash correctness under 8-thread contention on report_store.cache.cached_units and achieves 2.36x same-path and 2.90x mixed-path throughput vs the 3.14 GIL build on this host."
+  ],
+  "limits": [
+    "Single host (ASUS TUF A14, AMD Ryzen AI 9 HX 370), single sequential pass; reader microbenchmarks do not generalize across hosts or to large captures.",
+    "Raw interpreter_matrix_raw artifacts did not record process RSS or cgroup memory.peak, so every cell sets memoryCoverage to 'none' rather than fabricating memory numbers.",
+    "Raw latency JSON recorded order statistics {median_us, q1_us, q3_us, iqr_us, n}; wall.min/max are populated from [q1_us, q3_us] and wall.stdev from iqr_us.",
+    "3.14t cache contention measures library-level report_store.cache.cached_units locking, not live FastMCP server concurrency."
+  ]
+}
