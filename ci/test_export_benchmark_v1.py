@@ -9,6 +9,7 @@ import unittest
 from pathlib import Path
 
 from ci import export_benchmark_v1 as exporter
+from ci import export_regression_corpus as corpus_exporter
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -131,6 +132,25 @@ class ExportBenchmarkV1Tests(unittest.TestCase):
             check=True,
         )
         self.assertEqual(proc.stdout.strip(), "")
+
+    def test_regression_corpus_schema_and_export_invariants(self) -> None:
+        corpus_schema_path = REPO_ROOT / "schemas" / "regression-corpus.v1.schema.json"
+        self.assertTrue(corpus_schema_path.exists())
+        corpus_schema = json.loads(corpus_schema_path.read_text(encoding="utf-8"))
+        self.assertEqual(
+            corpus_schema["properties"]["schema"]["const"],
+            "perfdigest.regression-corpus.v1",
+        )
+
+        corpus_doc = corpus_exporter.build_regression_corpus_v1()
+        self.assertEqual(corpus_doc["schema"], "perfdigest.regression-corpus.v1")
+        self.assertEqual(corpus_doc["upstreamRepo"], "onlyxItachi/PerfDigest-MCP-Bench")
+        self.assertEqual(len(corpus_doc["studies"]), 2)
+        self.assertEqual(
+            [s["id"] for s in corpus_doc["studies"]],
+            ["cpp_build_loop", "cuda_opt_bench"],
+        )
+        self.assertEqual(corpus_exporter.main(["--check"]), 0)
 
 
 if __name__ == "__main__":

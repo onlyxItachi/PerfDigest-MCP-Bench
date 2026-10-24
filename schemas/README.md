@@ -8,7 +8,9 @@ This directory holds the JSON Schema (draft 2020-12) definitions shared across t
 |---|---|---|
 | `benchmark-result.v1.schema.json` | `perfdigest.benchmark-result.v1` | Result document schema: host provenance, tool versions, `layerSummary`, `benchCompatibility`, measured `cells[]`, falsifiable `claims[]`, and non-empty `limits[]`. |
 | `benchmark-manifest.v1.schema.json` | `perfdigest.benchmark-manifest.v1` | Manifest schema declaring cell IDs, layers, groups, backends, scenarios, and iteration defaults. |
+| `regression-corpus.v1.schema.json` | `perfdigest.regression-corpus.v1` | Cross-repo regression corpus schema cataloging real raw profiler artifacts, SHA-256 provenance, and expected `PerfDigest-MCP` digest invariants. |
 | `examples/interpreter-matrix-2026-07-18.benchmark-result.v1.json` | `perfdigest.benchmark-result.v1` | Deterministic v1 export of `results/interpreter_matrix_raw/` produced by `ci/export_benchmark_v1.py`. |
+| `examples/real-workloads-corpus.v1.json` | `perfdigest.regression-corpus.v1` | Deterministic v1 regression corpus cataloging `results/cpp_build_loop_raw/` and `results/cuda_opt_bench_raw/` produced by `ci/export_regression_corpus.py`. |
 
 ## Three-Layer Separation (`cell.layer` & `layerSummary`)
 
