@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/onlyxItachi/PerfDigest-MCP-Bench/schemas/regression-corpus.v1.schema.json",
+  "title": "PerfDigest Cross-Repo Real-Workload Regression Corpus v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "createdAt",
+    "upstreamRepo",
+    "studies"
+  ],
+  "properties": {
+    "schema": {
+      "const": "perfdigest.regression-corpus.v1"
+    },
+    "createdAt": {
+      "type": "string",
+      "minLength": 10
+    },
+    "upstreamRepo": {
+      "const": "onlyxItachi/PerfDigest-MCP-Bench"
+    },
+    "studies": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "studyDoc",
+          "rawDir",
+          "question",
+          "expectedSelectedReportId",
+          "reports"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "studyDoc": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rawDir": {
+            "type": "string",
+            "minLength": 1
+          },
+          "question": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedSelectedReportId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reports": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "path",
+                "format",
+                "bytes",
+                "sha256",
+                "expectedDigest"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "path": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "format": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "bytes": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "expectedDigest": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "totalUnits",
+                    "topUnitName",
+                    "topUnitIndex",
+                    "topUnitDomain",
+                    "topUnitMetrics"
+                  ],
+                  "properties": {
+                    "totalUnits": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "topUnitName": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "topUnitIndex": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "topUnitDomain": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "topUnitMetrics": {
+                      "type": "object",
+                      "minProperties": 1,
+                      "additionalProperties": {
+                        "type": [
+                          "number",
+                          "null"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

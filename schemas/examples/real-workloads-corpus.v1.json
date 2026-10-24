@@ -1,0 +1,143 @@
+{
+  "schema": "perfdigest.regression-corpus.v1",
+  "createdAt": "2026-07-19T00:00:00Z",
+  "upstreamRepo": "onlyxItachi/PerfDigest-MCP-Bench",
+  "studies": [
+    {
+      "id": "cpp_build_loop",
+      "title": "Demanding Workloads Pt. 3: C++ Build Loop (CMake + Ninja + Clang -ftime-trace)",
+      "studyDoc": "results/DEMANDING_WORKLOADS_3_CPP_BUILD_LOOP_2026-07-19.md",
+      "rawDir": "results/cpp_build_loop_raw",
+      "question": "Which translation unit and compiler frontend phase dominate the C++ build loop, and what causes the template instantiation bottleneck?",
+      "expectedSelectedReportId": "template-heavy",
+      "reports": [
+        {
+          "id": "cold-ninja",
+          "path": "results/cpp_build_loop_raw/cold.ninja_log",
+          "format": "ninja-log",
+          "bytes": 565,
+          "sha256": "1979b307165d6d24108ddd57bbbf5fe6229b6d9e635dba89762cce0288fb01da",
+          "expectedDigest": {
+            "totalUnits": 7,
+            "topUnitName": "CMakeFiles/bl_core.dir/src/lib_template_heavy.cpp.o",
+            "topUnitIndex": 4,
+            "topUnitDomain": "build_step",
+            "topUnitMetrics": {
+              "duration_ms": 2053.0,
+              "start_ms": 1.0,
+              "end_ms": 2054.0
+            }
+          }
+        },
+        {
+          "id": "configure-cold",
+          "path": "results/cpp_build_loop_raw/configure_cold.cmake-profile.json",
+          "format": "cmake-profile",
+          "bytes": 1544826,
+          "sha256": "a487cd82ca5baebf6dc9adef4fd035d1dcfa1da45c41c3a3b55102497ca9fce4",
+          "expectedDigest": {
+            "totalUnits": 90,
+            "topUnitName": "configure",
+            "topUnitIndex": 0,
+            "topUnitDomain": "build_phase",
+            "topUnitMetrics": {
+              "calls": 1.0,
+              "total_time_us": 394547.0,
+              "avg_time_us": 394547.0,
+              "max_time_us": 394547.0
+            }
+          }
+        },
+        {
+          "id": "configure-warm",
+          "path": "results/cpp_build_loop_raw/configure_warm.cmake-profile.json",
+          "format": "cmake-profile",
+          "bytes": 297280,
+          "sha256": "d9d8267d1bb7ec1aa942bfec5b216ee6a7bdf5609e5bb06f2b6648b5ec0566c2",
+          "expectedDigest": {
+            "totalUnits": 55,
+            "topUnitName": "configure",
+            "topUnitIndex": 0,
+            "topUnitDomain": "build_phase",
+            "topUnitMetrics": {
+              "calls": 1.0,
+              "total_time_us": 14060.0,
+              "avg_time_us": 14060.0,
+              "max_time_us": 14060.0
+            }
+          }
+        },
+        {
+          "id": "incremental-ninja",
+          "path": "results/cpp_build_loop_raw/incremental.ninja_log",
+          "format": "ninja-log",
+          "bytes": 776,
+          "sha256": "901ab181e13a52bff731fbb8d08957696b83e79be925ac72102517560f61f105",
+          "expectedDigest": {
+            "totalUnits": 7,
+            "topUnitName": "CMakeFiles/bl_core.dir/src/lib_template_heavy.cpp.o",
+            "topUnitIndex": 4,
+            "topUnitDomain": "build_step",
+            "topUnitMetrics": {
+              "duration_ms": 2072.0,
+              "start_ms": 1.0,
+              "end_ms": 2073.0
+            }
+          }
+        },
+        {
+          "id": "template-heavy",
+          "path": "results/cpp_build_loop_raw/template_heavy.ftime-trace.json",
+          "format": "clang-time-trace",
+          "bytes": 745515,
+          "sha256": "e5641450f000e3f44dfee1b6fb6d4de38455918a5ef6a1e90ea14a0e10dfaa00",
+          "expectedDigest": {
+            "totalUnits": 189,
+            "topUnitName": "InstantiateClass",
+            "topUnitIndex": 159,
+            "topUnitDomain": "build_phase",
+            "topUnitMetrics": {
+              "calls": 412.0,
+              "total_time_us": 3496667.0,
+              "avg_time_us": 8487.055825242718,
+              "max_time_us": 149155.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "cuda_opt_bench",
+      "title": "Demanding Workloads Pt. 4: CUDA Optimization Loop (ptxas static codegen)",
+      "studyDoc": "results/DEMANDING_WORKLOADS_4_CUDA_OPT_LOOP_2026-07-19.md",
+      "rawDir": "results/cuda_opt_bench_raw",
+      "question": "What do the ptxas kernel codegen metrics (register pressure, spill stores/loads, and constant memory) show across the compiled CUDA kernels?",
+      "expectedSelectedReportId": "ptxas-verbose",
+      "reports": [
+        {
+          "id": "ptxas-verbose",
+          "path": "results/cuda_opt_bench_raw/ptxas_verbose.txt",
+          "format": "ptxas-verbose",
+          "bytes": 2351,
+          "sha256": "f7d1a48af8b7c9c65c6b6f6eb41d089196fc780396c0c2e852f6ade1d51716d7",
+          "expectedDigest": {
+            "totalUnits": 7,
+            "topUnitName": "_Z15checksum_kernelPKflPd [sm_89]",
+            "topUnitIndex": 0,
+            "topUnitDomain": "kernel_codegen",
+            "topUnitMetrics": {
+              "registers_per_thread": 14.0,
+              "spill_stores_bytes": 0.0,
+              "spill_loads_bytes": 0.0,
+              "stack_frame_bytes": 0.0,
+              "static_smem_bytes": 0.0,
+              "const_mem_bytes": 376.0,
+              "barriers": 0.0,
+              "compile_time_ms": 3.685
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
